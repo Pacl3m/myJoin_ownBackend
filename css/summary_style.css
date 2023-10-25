@@ -1,0 +1,183 @@
+body {
+    background: #fff;
+    margin: 0;
+    font-family: 'Inter';
+}
+
+.summaryboxes {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+
+.boxes-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 25px;
+}
+
+.sum-box {
+    padding: 25px;
+    border-radius: 30px;
+    background: #fff;
+    flex: 1;
+    text-align: center;
+    height: calc(170px - 50px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0px 0px 4px 0px #0000001A;
+}
+
+.boxes-row a {
+    color: #000;
+    text-decoration: none;
+}
+
+.sum-box:hover {
+    cursor: pointer;
+    color: #fff;
+    background: #2A3647;
+    transform: scale(1.05);
+    transition: all 0.3s ease;
+    box-shadow: 0px 2px 8px 0px rgba(61,65,84,0.5);
+}
+
+img.hov-icon {
+    display: none;
+}
+
+.sum-box:hover img.def-icon {
+    display: none;
+}
+
+.sum-box:hover img.hov-icon {
+    display: block;
+}
+
+a.help:hover img.def-icon {
+    display: none;
+}
+
+a.help:hover img.hov-icon {
+    display: block;
+}
+
+.box-left {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+span#upcomingDeadline {
+    font-weight: bold;
+}
+
+a#sum-box-4 .box-right {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.boxes-row .sum-box {
+    display: flex;
+    gap: 20px;
+}
+
+.boxes-row span.sum-title {
+    font-size: 64px;
+    font-weight: 600;
+}
+
+span.sum-sub-title {
+    font-size: 20px;
+    line-height: 24px;
+    font-weight: 400;
+}
+
+div#welcomemsg {
+    width: 40%;
+    opacity: 1;
+    flex-direction: column;
+}
+
+span#welcomemsgtime {
+    font-family: Inter;
+    font-size: 47px;
+    font-weight: 500;
+    line-height: 56px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: #2A3647;
+}
+
+span#welcomemsguser {
+    font-family: Inter;
+    font-size: 64px;
+    font-weight: 700;
+    line-height: 77px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: #29ABE2;
+    display: block;
+}
+
+
+@media only screen and (min-width: 993px) and (max-width: 1300px) {
+
+    .middle .content {
+        width: calc(100% - 90px);
+        padding: 100px 25px 100px 40px;
+    }
+
+}
+
+@media only screen and (max-width: 992px) {
+
+
+
+div#welcomemsg {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    display: flex;
+    background: #f6f7f8;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+
+.remove {
+    opacity: 0!important;
+    transition: opacity 0.5s linear;
+}
+
+.sum-box {
+    padding: 14px;
+    border-radius: 20px;
+}
+
+.boxes-row img {
+    max-width: 40px;
+}
+
+.summaryboxes {
+    width: 100%;
+}
+
+.boxes-row span.sum-title {
+    font-size: 47px;
+}
+
+span.sum-sub-title {
+    font-size: 14px;
+    line-height: 17px;
+}
+
+}

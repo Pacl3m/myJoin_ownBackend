@@ -1,0 +1,90 @@
+<div class="mainAddTask">
+    <div class="headAddTask">
+        <h1>Add Task</h1>
+    </div>
+    <div class="left-right-split">
+        <div class="addTask-left">
+            <div class="title">
+                <h5>Title</h5>
+                <input type="text" placeholder="Enter a title">
+            </div>
+            <div class="description">
+                <h5>Description</h5>
+                <textarea name="" id="" cols="30" rows="4" placeholder="Enter a Description"></textarea>
+            </div>
+            <div class="category">
+                <h5>Category</h5>
+                <select placeholder="Select Task Category" name="Category" id="">
+                    <option>Add new category</option>
+                    <option>Design</option>
+                    <option>Sales</option>
+                    <option>Backoffice</option>
+                    <option>Marketing</option>
+                </select>
+            </div>
+            <div class="assignedTo">
+                <h5>Assigned to</h5>
+                <select placeholder="Select Task Category" name="Category" id="">
+                    <option>You</option>
+                    <option>Max Mustermann</option>
+                    <option>Invite new contact</option>
+                </select>
+            </div>
+        </div>
+        <div class="separator"></div>
+        <div class="addTask-right">
+            <div class="date">
+                <h5>Due date</h5>
+                <input type="date">
+            </div>
+            <div class="prio">
+                <h5>Prio</h5>
+                <div class="addTaskPrios">
+                    <p>Urgent<img src="/assets/img/board/PrioHigh.png" alt=""></p>
+                    <p>Medium<img src="/assets/img/board/PrioMid.png" alt=""></p>
+                    <p>Low<img src="/assets/img/board/PrioLow.png" alt=""></p>
+                </div>
+            </div>
+            <div class="subtask">
+                <h5>Subtasks</h5>
+                <input placeholder="Add new subtask" type="text" name="" id="">
+                <div class="checkboxes">
+                    <div class="boxes">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 18 17"
+                            fill="none">
+                            <rect x="1" y="0.5" width="16" height="16" rx="3"
+                                fill="url(#paint0_linear_71853_3184)" stroke="black" />
+                            <defs>
+                                <linearGradient id="paint0_linear_71853_3184" x1="9" y1="0.5" x2="9"
+                                    y2="16.5" gradientUnits="userSpaceOnUse">
+                                    <stop stop-color="#F9F9F9" />
+                                    <stop offset="1" stop-color="#F0F0F0" />
+                                </linearGradient>
+                            </defs>
+                        </svg>Subtask 1
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="clearCreateButtons">
+        <button class="clearBtn">Clear<svg xmlns="http://www.w3.org/2000/svg" width="24" height="25"
+                viewBox="0 0 24 25" fill="none">
+                <path
+                    d="M12.0011 12.5001L17.2441 17.7431M6.75806 17.7431L12.0011 12.5001L6.75806 17.7431ZM17.2441 7.25708L12.0001 12.5001L17.2441 7.25708ZM12.0001 12.5001L6.75806 7.25708L12.0001 12.5001Z"
+                    stroke="#2A3647" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            </svg></button>
+        <button class="createBtn">Create Task
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25" fill="none">
+                <mask id="mask0_71853_1114" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
+                    width="24" height="25">
+                    <rect y="0.5" width="24" height="24" fill="#D9D9D9" />
+                </mask>
+                <g mask="url(#mask0_71853_1114)">
+                    <path
+                        d="M9.54996 15.65L18.025 7.175C18.225 6.975 18.4625 6.875 18.7375 6.875C19.0125 6.875 19.25 6.975 19.45 7.175C19.65 7.375 19.75 7.6125 19.75 7.8875C19.75 8.1625 19.65 8.4 19.45 8.6L10.25 17.8C10.05 18 9.81663 18.1 9.54996 18.1C9.2833 18.1 9.04996 18 8.84996 17.8L4.54996 13.5C4.34996 13.3 4.25413 13.0625 4.26246 12.7875C4.2708 12.5125 4.37496 12.275 4.57496 12.075C4.77496 11.875 5.01246 11.775 5.28746 11.775C5.56246 11.775 5.79996 11.875 5.99996 12.075L9.54996 15.65Z"
+                        fill="white" />
+                </g>
+            </svg></button>
+    </div>
+</div>

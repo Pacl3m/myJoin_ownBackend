@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Task</title>
+
+    <script src="js/storage.js"></script>
+    <script src="js/include.js"></script>
+    <script src="js/summary_script.js"></script>
+    <script src="js/main_login.js"></script>
+    <script src="js/add_task.js"></script>
+    <script src="js/contacts.js"></script>
+    <script src="js/board.js"></script>
+    <link rel="stylesheet" href="css/summary_style.css">
+    <link rel="stylesheet" href="css/layout.css">
+    <link rel="stylesheet" href="css/add_task.css">
+    <link rel="stylesheet" href="assets/fonts/fonts.css">
+    <link rel="icon" type="image/x-icon" href="img/joinlogo.png">
+</head>
+
+<body onload="includeTemplates(), main()">
+    <div class="main-content">
+        <div class="sidebar" w3-include-html="templates/sidebar.html">
+
+        </div>
+
+        <div class="middle">
+            <div class="header" w3-include-html="templates/header.html">
+
+            </div>
+            <div class="includeTaskForm" w3-include-html="templates/task_form2.html"></div>
+            <!-- <div class="content">
+                <div class="mainAddTask">
+                    <div class="title">
+                        <h1>Add Task</h1>
+                    </div>
+                    <div class="left-right-split">
+                        <div class="addTask-left">
+                            <div class="titleAddTask">
+                                <h5>Title</h5>
+                                <input required id="addTaskTitle" type="text" placeholder="Enter a title">
+                            </div>
+                            <div class="description">
+                                <h5>Description</h5>
+                                <textarea required name="" id="descriptionTextArea" cols="30" rows="4" style="resize: none;" placeholder="Enter a Description"></textarea>
+                            </div>
+                            
+                            <div class="assignedTo" id="assigned_to">
+                                <h5>Assigned to</h5>
+                                <input type="text" class="selectContainer" placeholder="Select contacts to assign" id="addContact" onclick="openDropdownContact()">
+                                    
+                                    </input>
+                            </div>
+                        </div>
+                        <div class="separator"></div>
+                        <div class="addTask-right">
+                            <div class="date">
+                                <h5>Due date</h5>
+                                <input required id="date" type="date">
+                            </div>
+                            <div class="prio">
+                                <h5>Prio</h5>
+                                <div class="addTaskPrios" id="prioButtons">
+                                    <button class="SubTaskPrios red" onclick="addActiveState(0)">Urgent<img
+                                            src="/assets/img/addtask/prio-high.svg" alt="" class="default"><img
+                                            src="/assets/img/addtask/prio-high-w.svg" alt="" class="active"></button>
+                                    <button class="SubTaskPrios yellow" onclick="addActiveState(1)">Medium<img
+                                        src="/assets/img/addtask/prio-medium.svg" alt="" class="default"><img
+                                        src="/assets/img/addtask/prio-medium-w.svg" alt="" class="active"></button>
+                                    <button class="SubTaskPrios green" onclick="addActiveState(2)">Low<img
+                                        src="/assets/img/addtask/prio-low.svg" alt="" class="default"><img
+                                        src="/assets/img/addtask/prio-low-w.svg" alt="" class="active"></button>
+                                </div>
+                            </div>
+                            <div class="category" id="category">
+                                <h5>Category</h5>
+                                <div class="selectContainer" id="addCategory" onclick="openCategoryDropDown()">
+                                    <div>Select Task Category</div>
+                                </div>
+                            </div>
+                            <div class="subtask" id="subtask_main">
+                                <h5>Subtasks</h5>
+                                <div id="addNewSubtask" class="subtask-input">
+                                    <p>Add new subtask</p>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" onclick="openSubtaskInput()">
+                                        <path d="M12.0011 12.0002L12.0018 19.4149M4.58641 12.0008L12.0011 12.0002L4.58641 12.0008ZM19.4159 11.9995L12.0004 11.9995L19.4159 11.9995ZM12.0004 11.9995L12.0005 4.58545L12.0004 11.9995Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                </div>
+                                <div class="checkboxes" id="added_subtasks_main">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="clearCreateButtons">
+                        <button class="clearBtn" onclick="location.reload()"><div>Clear</div><img src="/assets/img/board/clear-black.svg" class="default"><img src="/assets/img/board/clear-blue.svg" class="hover" alt=""></button>
+                        <button class="createBtn" onclick="addTaskToBoard()"><div>Create Task</div><img src="/assets/img/board/create.png" alt=""></button>
+                    </div>
+                </div>
+            </div> -->
+
+        </div>
+    </div>
+</body>
+
+</html>
