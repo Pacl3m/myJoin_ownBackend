@@ -34,16 +34,16 @@ body {
 }
 
 .middle {
-    display: inline-block;
+    /* display: inline-block;
     order: 2;
     flex-direction: column;
     flex: 1;
-    width: calc(100% - 232px);
+    width: calc(100% - 232px); */
     margin-left: 232px;
     background: #f6f7f8;
 }
 
-.middle .header {
+.header {
     position: fixed;
     display: flex;
     align-items: center;
