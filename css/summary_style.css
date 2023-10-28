@@ -125,11 +125,11 @@ span#welcomemsguser {
 }
 
 
-@media only screen and (min-width: 993px) and (max-width: 1300px) {
+@media only screen and (max-width: 1450px) {
 
     .middle .content {
-        width: calc(100% - 90px);
-        padding: 100px 25px 100px 40px;
+        /* width: calc(100% - 90px); */
+        padding: 32px 25px 0px 16px !important;
     }
 
 }

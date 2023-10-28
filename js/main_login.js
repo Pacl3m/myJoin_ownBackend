@@ -3,7 +3,6 @@
  * @type {number}
  */
 let currentUser;
-
 let rememberMe;
 
 

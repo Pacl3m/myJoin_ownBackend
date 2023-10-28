@@ -1,4 +1,5 @@
-const STORAGE_TOKEN = '3ENG5I37YYIRIRHAMOTSPWZ7QUU5KTVYOANLRZYR';
+// const STORAGE_TOKEN = '3ENG5I37YYIRIRHAMOTSPWZ7QUU5KTVYOANLRZYR';
+const STORAGE_TOKEN = 'NXG6821GC3N8UKZYZ3LB1K13W6AEIKIER4AO8G0M';
 const STORAGE_URL = 'https://remote-storage.developerakademie.org/item';
 
 //Save and load contacts
@@ -32,7 +33,7 @@ const STORAGE_URL = 'https://remote-storage.developerakademie.org/item';
 
 
 //Save and load contacts in remoteStorage
-async function saveContactsToStorage() { // Name muss dann angepasst werden
+async function saveContactsToStorage() {
     let key = 'contacts';
     let value = Contacts;
     let payload = { key, value, token: STORAGE_TOKEN };
@@ -58,14 +59,15 @@ async function getContactsFromStorage() {
 
 
 //Save and load cards in remoteStorage
-async function saveCardsToStorage() { // Name muss dann angepasst werden
+async function saveCardsToStorage() { 
     let key = 'cards';
     let value = cards;
     let payload = { key, value, token: STORAGE_TOKEN };
     return fetch(STORAGE_URL, {method: 'POST', body: JSON.stringify(payload)}).then(res => res.json());
 }
 
-async function getCardsFromStorage() { // Name muss dann angepasst werden
+
+async function getCardsFromStorage() { 
     let key = 'cards';
     let url = `${STORAGE_URL}?key=${key}&token=${STORAGE_TOKEN}`;
     try {
@@ -84,14 +86,14 @@ async function getCardsFromStorage() { // Name muss dann angepasst werden
 
 
 //Save and load categories in remoteStorage
-async function saveCategoriesToStorage() { // Name muss dann angepasst werden
+async function saveCategoriesToStorage() {
     let key = 'categories';
     let value = categories;
     let payload = { key, value, token: STORAGE_TOKEN };
     return fetch(STORAGE_URL, {method: 'POST', body: JSON.stringify(payload)}).then(res => res.json());
 }
 
-async function getCategoriesFromStorage() { // Name muss dann angepasst werden
+async function getCategoriesFromStorage() {
     let key = 'categories';
     let url = `${STORAGE_URL}?key=${key}&token=${STORAGE_TOKEN}`;
     try {

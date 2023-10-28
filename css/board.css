@@ -52,9 +52,9 @@ html::-webkit-scrollbar {
 .headBoard {
     z-index: 2;
     display: flex;
-    width: 1056px;
+    /* width: 1056px; */
     justify-content: space-between;
-    align-items: center;
+    /* align-items: center; */
 }
 
 .headBoardRight {
@@ -95,7 +95,8 @@ html::-webkit-scrollbar {
 .categoryBoardAll {
     display: inline-flex;
     justify-content: center;
-    align-items: flex-start;
+    /* align-items: flex-start; */
+    justify-content: flex-start;
     flex-shrink: 0;
 }
 
@@ -1016,16 +1017,6 @@ div#addContact2 {
     background-repeat: no-repeat;
 }
 
-/* @keyframes slide-in {
-    from {
-        transform: translateX(100%);
-    }
-
-    to {
-        transform: translateX(0);
-    }
-} */
-
 .includeTaskForm {
     z-index: 99;
     width: 100%;
@@ -1040,10 +1031,10 @@ div#addContact2 {
 }
 
 @media(max-width: 1435px) {
-    .headBoard {
+    /* .headBoard {
         display: flex;
         width: 900px;
-    }
+    } */
 
     .headBoardRight {
         gap: 8px;
@@ -1061,11 +1052,11 @@ div#addContact2 {
 }
 
 @media(max-width: 1240px) {
-    .headBoard {
+    /* .headBoard {
         display: flex;
         gap: 32px;
         width: 700px;
-    }
+    } */
 }
 
 @media(max-width: 1050px) {
@@ -1178,7 +1169,6 @@ div#addContact2 {
 
 @media(max-width: 630px) {
     .headBoard {
-        display: flex;
         flex-direction: column;
     }
 
@@ -1302,7 +1292,3 @@ div#addContact2 {
         border-radius: 0;
     }
 }
-
-/* @media(max-width: 3440px) {
-    
-} */
