@@ -18,7 +18,7 @@ loadcurrentUser();
 function checkLogIn() {
     getContactsFromStorage();
     let emailInput = document.getElementById('emailInput');
-    let passwordInput = document.getElementById('passwordInput');
+    let passwordInput = document.getElementById('passwordInput1');
     let isLoggedIn = false; // Variable to track if the login check was successful
     let rememberMeImg = document.getElementById('rememberMe');
 

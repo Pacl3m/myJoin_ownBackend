@@ -16,7 +16,6 @@ body {
 }
 
 .contacts-content {
-    margin-top: 96px;
     height: 100%;
     background-color: #F6F7F8;
     display: flex;
@@ -25,10 +24,11 @@ body {
 
 .frame-97 {
     width: 456px;
-    height: calc(100vh - 96px);
+    height: 100vh;
     flex-shrink: 0;
     background: var(--white, #FFF);
     box-shadow: 4px 0px 6px 0px rgba(0, 0, 0, 0.08);
+    margin-top: 96px;
     padding-left: 28px;
     padding-right: 28px;
     overflow-y: scroll;
@@ -160,20 +160,20 @@ body {
 
 .new-contact {
     display: flex;
-    width: 100%;
+    width: 90%;
     height: 53px;
     justify-content: center;
     align-items: center;
     gap: 10px;
     flex-shrink: 0;
     border-radius: 10px;
-    border: 1px solid #2A3647;
+    border: none;
     background: #2A3647;
+    cursor: pointer;
 }
 
-.new-contact :hover {
-
-    cursor: pointer;
+.new-contact:hover {
+    background: #3BABE2;
 }
 
 .new-contact p {

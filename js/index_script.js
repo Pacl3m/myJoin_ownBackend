@@ -1,5 +1,3 @@
-/////////////////////// Function to initialize the page ///////////////////////////////////
-
 /**
  * Initializes the application by starting the animation and retrieving contacts from storage.
  */
@@ -8,8 +6,6 @@ function init() {
     getContactsFromStorage();
 }
 
-
-//////////////////////// Function to start the animation //////////////////////////////////
 
 /**
  * Initiates the animation sequence. Changes the logo source for small screens,
@@ -24,16 +20,11 @@ function startAnimation() {
         let background = document.getElementById('startBackground');
 
         setTimeout(() => { logo.src = "../img/joinlogo.png"; }, 80)
-
         logo.classList.add('imgLogo');
-
-        // Fades out the startBackground div gradually
-        background.style.backgroundColor = "rgba(246, 247, 248, 0%)";
-
-        // Remove the image from the DOM after the animation
+        background.style.backgroundColor = "rgba(246, 247, 248, 0%)"; // Fades out the startBackground div gradually
         setTimeout(() => {
             if (background && background.parentNode) {
-                background.parentNode.removeChild(background);
+                background.parentNode.removeChild(background); // Remove the image from the DOM after the animation
             }
         }, 500); // Wait for 0.5 seconds (same duration as the animation) before removing the image
         handleMaxWidthChange();
@@ -41,45 +32,26 @@ function startAnimation() {
 }
 
 
-//////////////////////////////////// Function to toggle password visibility ////////////////////////////////
-
 /**
- * Toggles the visibility of the password input field based on the provided index.
- * 
- * @param {number} i - The index to identify which password input field to toggle (1 or 2).
- */
+* Toggles the visibility of the password input field based on the provided index.
+* 
+* @param {number} i - The index to identify which password input field to toggle (1 or 2).
+*/
 function togglePasswordVisibility(i) {
-    let passwordInput = document.getElementById('passwordInput');
-    let passwordImage = document.getElementById('passwordImage');
-    let passwordInput2 = document.getElementById('passwordInput2');
-    let passwordImage2 = document.getElementById('passwordImage2');
+    let passwordInput = document.getElementById('passwordInput' + i);
+    let passwordImage = document.getElementById('passwordImage' + i);
 
-    if (passwordInput && i === 1) {
-        if (!passwordImage.src.includes('/assets/img/logInSignUp/lock.svg')) {
-            if (passwordInput.type === 'password') {
-                passwordInput.type = 'text'; // Show password
-                passwordImage.src = './assets/img/logInSignUp/eye.svg';
-            } else {
-                passwordInput.type = 'password'; // Hide password
-                passwordImage.src = './assets/img/logInSignUp/hiddeneye.svg';
-            }
-        }
-    }
-    if (passwordInput2 && i === 2) {
-        if (!passwordImage2.src.includes('/assets/img/logInSignUp/lock.svg')) {
-            if (passwordInput2.type === 'password') {
-                passwordInput2.type = 'text'; // Show password
-                passwordImage2.src = './assets/img/logInSignUp/eye.svg';
-            } else {
-                passwordInput2.type = 'password'; // Hide password
-                passwordImage2.src = './assets/img/logInSignUp/hiddeneye.svg';
-            }
+    if (!passwordImage.src.includes('/assets/img/logInSignUp/lock.svg')) {
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text'; // Show password
+            passwordImage.src = './assets/img/logInSignUp/eye.svg';
+        } else {
+            passwordInput.type = 'password'; // Hide password
+            passwordImage.src = './assets/img/logInSignUp/hiddeneye.svg';
         }
     }
 }
 
-
-/////////////////////////////////// Function to add event listeners for the password field ////////////////////////
 
 /**
  * Sets up event listeners for password input fields.
@@ -89,41 +61,41 @@ function togglePasswordVisibility(i) {
 function setupPasswordInputEventListeners() {
     const passwordInputs = document.querySelectorAll('.passwordInput');
 
-    /**
-     * Updates the password image source based on input and focus.
-     * @param {HTMLInputElement} passwordInput - The password input field.
-     * @param {HTMLImageElement} passwordImage - The associated password image.
-     * @returns {void}
-     */
-    function updatePasswordImageSrc(passwordInput, passwordImage) {
-        if (passwordInput.value.trim().length > 0 && passwordInput.type === 'password' || 'text') {
-            passwordImage.src = './assets/img/logInSignUp/hiddeneye.svg';
-        } else {
-            passwordImage.src = './assets/img/logInSignUp/lock.svg';
-        }
-    }
-
     passwordInputs.forEach((passwordInput) => {
         const passwordImage = passwordInput.nextElementSibling;
 
         passwordInput.addEventListener('focus', function () {
             updatePasswordImageSrc(passwordInput, passwordImage);
         });
-
         passwordInput.addEventListener('input', function () {
             updatePasswordImageSrc(passwordInput, passwordImage);
         });
-
         passwordInput.addEventListener('focusout', function () {
             updatePasswordImageSrc(passwordInput, passwordImage);
         });
     });
 }
 
+/**
+     * Updates the password image source based on input and focus.
+     * @param {HTMLInputElement} passwordInput - The password input field.
+     * @param {HTMLImageElement} passwordImage - The associated password image.
+     * @returns {void}
+     */
+function updatePasswordImageSrc(passwordInput, passwordImage) {
+    if (passwordInput.value.trim().length > 0) {
+        handlePasswordImage(passwordInput, passwordImage)
+    } else {
+        passwordImage.src = './assets/img/logInSignUp/lock.svg';
+    }
+}
 
-////////////////////// Function to add event listeners after the DOM has loaded ////////////////////////
-function setupEventListenersAfterDOMLoaded() {
-    setupPasswordInputEventListeners();
+function handlePasswordImage(passwordInput, passwordImage) {
+    if (passwordInput.type === 'password') {
+        passwordImage.src = './assets/img/logInSignUp/hiddeneye.svg';
+    } else {
+        passwordImage.src = './assets/img/logInSignUp/eye.svg';
+    }
 }
 
 
@@ -135,7 +107,7 @@ function setupEventListenersAfterDOMLoaded() {
 function checkBox() {
     let rememberMeImg = document.getElementById('rememberMe');
 
-    if(rememberMeImg.classList.contains('checkBox')) {
+    if (rememberMeImg.classList.contains('checkBox')) {
         localStorage.setItem('rememberMe', 0);
     }
 
@@ -148,21 +120,26 @@ function checkBox() {
     }
 }
 
+/**
+ * Checks if 'Remember Me' option is enabled and sets the corresponding values in the form.
+ * @async
+ * @function
+ * @returns {Promise<void>}
+ * @throws {Error} Throws an error if there is an issue retrieving contacts from storage.
+ */
 async function checkRememberMe() {
     await getContactsFromStorage()
     let rememberMeCheckBox = document.getElementById('rememberMe');
     let emailInput = document.getElementById('emailInput');
-    let passwordInput = document.getElementById('passwordInput');
+    let passwordInput = document.getElementById('passwordInput1');
 
-    if(rememberMe === 1 && currentUser !== 1000) {
+    if (rememberMe === 1 && currentUser !== 1000) {
         rememberMeCheckBox.click();
         emailInput.value = Contacts[currentUser].email;
         passwordInput.value = Contacts[currentUser].password;
     }
 }
 
-
-/////////////////////////////////////////// Log In //////////////////////////////////////////////////
 
 /**
  * Function to render the LogIn form
@@ -171,17 +148,12 @@ function renderLogIn() {
     let contentbox = document.getElementById('contentbox');
 
     contentbox.innerHTML = returnLogInHTML();
-    setupEventListenersAfterDOMLoaded();
+    setupPasswordInputEventListeners();
     checkRememberMe();
     document.getElementById('headerRight').classList.remove('d-none');
     document.getElementById('footer').classList.remove('d-none');
 }
 
-
-
-
-
-/////////////////////////////////////////// Sign Up //////////////////////////////////////////////////
 
 /**
  * Function to render the SignUp form
@@ -190,7 +162,7 @@ function renderSignUp() {
     let contentbox = document.getElementById('contentbox');
 
     contentbox.innerHTML = returnSignUpHTML();
-    setupEventListenersAfterDOMLoaded();
+    setupPasswordInputEventListeners();
     document.getElementById('headerRight').classList.add('d-none');
     document.getElementById('banner').innerHTML = 'You Signed Up succeccfully';
 }
@@ -202,7 +174,7 @@ function renderSignUp() {
 async function signUpForm() {
     let nameInput = document.getElementById('nameInput');
     let emailInput = document.getElementById('emailInput');
-    let password1 = document.getElementById('passwordInput');
+    let password1 = document.getElementById('passwordInput1');
     let password2 = document.getElementById('passwordInput2');
 
     if (checkSamePasswort(password1, password2) && await checkEmail(emailInput.value) && checkTwoWordsforSignUp(nameInput)) {
@@ -211,23 +183,38 @@ async function signUpForm() {
         let lastName = nameArray[1];
         let firstTwoLetters = firstName.charAt(0) + lastName.charAt(0);
 
-        let user = {
-            "firstName": firstName,
-            "lastName": lastName,
-            "phone": 'Please add a phonenumber',
-            "email": emailInput.value,
-            "color": "black",
-            "firstLetters": firstTwoLetters,
-            "name": nameInput.value,
-            "password": password1.value,
-        };
-        Contacts.push(user);
+        saveNewUserData(firstName, lastName, emailInput, firstTwoLetters, nameInput, password1);
+        // let user = {
+        //     "firstName": firstName,
+        //     "lastName": lastName,
+        //     "phone": 'Please add a phonenumber',
+        //     "email": emailInput.value,
+        //     "color": "black",
+        //     "firstLetters": firstTwoLetters,
+        //     "name": nameInput.value,
+        //     "password": password1.value,
+        // };
+        // Contacts.push(user);
         sortContactsAlphabetically(Contacts);
         await saveContactsToStorage();
         resetInputField(nameInput, emailInput, password1, password2);
         show();
         setTimeout(() => { renderLogIn() }, 2000)
     }
+}
+
+function saveNewUserData(firstName, lastName, emailInput, firstTwoLetters, nameInput, password1) {
+    let user = {
+        "firstName": firstName,
+        "lastName": lastName,
+        "phone": 'Please add a phonenumber',
+        "email": emailInput.value,
+        "color": "black",
+        "firstLetters": firstTwoLetters,
+        "name": nameInput.value,
+        "password": password1.value,
+    };
+    Contacts.push(user);
 }
 
 /**
@@ -359,7 +346,7 @@ function renderResetPassword(i) {
  */
 async function setNewPassword(i) {
     let user = Contacts[i];
-    let password1 = document.getElementById('passwordInput');
+    let password1 = document.getElementById('passwordInput1');
     let password2 = document.getElementById('passwordInput2');
 
     if (checkSamePasswort(password1, password2)) {
@@ -446,8 +433,8 @@ function returnLogInHTML() {
                         <img src="./assets/img/logInSignUp/mail.svg" alt="">
                     </div>
                     <div class="inputField">
-                        <input required id="passwordInput" class="passwordInput" type="password" placeholder="Password">
-                        <img id="passwordImage" class="passwordImage" src="./assets/img/logInSignUp/lock.svg" alt="" onclick="togglePasswordVisibility(1)">
+                        <input required id="passwordInput1" class="passwordInput" type="password" placeholder="Password">
+                        <img id="passwordImage1" class="passwordImage" src="./assets/img/logInSignUp/lock.svg" alt="" onclick="togglePasswordVisibility(1)">
                     </div>
                     <div id="passwordAlert"></div>
                     <div class="rememberMeForgetBox mobilView">
@@ -493,8 +480,8 @@ function returnSignUpHTML() {
                     </div>
                     <div id="emailAlert"></div>
                     <div class="inputField">
-                        <input required id="passwordInput" class="passwordInput" type="password" placeholder="Password">
-                        <img id="passwordImage" class="passwordImage" src="./assets/img/logInSignUp/lock.svg" alt="" onclick="togglePasswordVisibility(1)">
+                        <input required id="passwordInput1" class="passwordInput" type="password" placeholder="Password">
+                        <img id="passwordImage1" class="passwordImage" src="./assets/img/logInSignUp/lock.svg" alt="" onclick="togglePasswordVisibility(1)">
                     </div>
                     <div id="freeAlert"></div>
                     <div class="inputField">
@@ -565,8 +552,8 @@ function returnResetPasswordHTML(i) {
             <div>
                 <div class="inputBox">
                     <div class="inputField">
-                        <input required id="passwordInput" class="passwordInput" type="password" placeholder="Password">
-                        <img id="passwordImage" class="passwordImage" src="./assets/img/logInSignUp/lock.svg" alt="" onclick="togglePasswordVisibility(1)">
+                        <input required id="passwordInput1" class="passwordInput" type="password" placeholder="Password">
+                        <img id="passwordImage1" class="passwordImage" src="./assets/img/logInSignUp/lock.svg" alt="" onclick="togglePasswordVisibility(1)">
                     </div>
                     <div class="inputField">
                         <input required id="passwordInput2" class="passwordInput" type="password" placeholder="Password">
