@@ -69,11 +69,11 @@ button:hover {
 
 
 .imgLogo {
-    top: 80px !important;
-    left: 100px !important;
-    transform: none !important;
-    width: 100px !important;
-    height: 122px !important;
+    top: 40px;
+    left: 60px;
+    transform: none;
+    width: 90px;
+    height: 112px;
 }
 
 
@@ -488,10 +488,10 @@ footer a:hover {
     }
 
     .imgLogo {
-        width: 64px !important;
-        height: 78px !important;
-        top: 16px !important;
-        left: 38px !important;
+        width: 64px;
+        height: 78px;
+        top: 16px;
+        left: 38px;
     }
 
     .inputField {
@@ -539,10 +539,10 @@ footer a:hover {
         width: 279px;
     }
 
-    #logo {
+    /* #logo {
         width: 100px;
         height: 122px;
-    }
+    } */
 
     #startBackground {
         background-color: #2A3647;
@@ -555,8 +555,8 @@ footer a:hover {
 
 @media(max-width: 510px) {
     .imgLogo {
-        height: 50px !important;
-        width: 40px !important;
+        height: 50px;
+        width: 40px;
     }
 }
 
@@ -578,13 +578,6 @@ footer a:hover {
 }
 
 
-@media(max-height: 650px) {
-    .header {
-        margin: 20px 80px;
-    }
-}
-
-
 @media(max-height: 800px) {
     .logInButtonBox {
         gap: 10px;
@@ -597,11 +590,13 @@ footer a:hover {
     input {
         height: 40px;
     }
-}
 
-@media (max-height: 750px) {
+    .header {
+        margin: 20px 80px;
+    }
+
     .front-main-content {
-        margin-top: 40px;
+        margin-top: 80px;
     }
 
     .logInButton {
@@ -617,8 +612,22 @@ footer a:hover {
     }
 
     .logInButtonBox {
-        margin-bottom: 8px;
+        margin-bottom: 24px;
     }
+}
+/* @media(max-height: 800px), (min-width: 510px) {
+    .imgLogo {
+        height: 90px;
+        width: 80px;
+        top: 32px;
+        left: 56px;
+    }
+} */
+
+@media (max-height: 650px) {
+    .front-main-content {
+        margin-top: 40px;
+    }    
 }
 
 @media(max-height: 500px) {

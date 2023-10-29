@@ -11,7 +11,7 @@ body {
 }
 
 .main-content {
-    display: flex;
+    display: grid;
     height: 100vH;
     background: #f6f7f8;
     width: 100%;
@@ -41,13 +41,13 @@ body {
 }
 
 .header {
-    position: fixed;
+    position: relative;
     display: flex;
     align-items: center;
     height: 96px;
     background: #fff;
     margin: 0px;
-    width: calc(100% - 232px);
+    /* width: calc(100% - 232px); */
     justify-content: space-between;
     box-shadow: 0px 4px 4px 0px #0000001A;
     z-index: 7;
@@ -83,7 +83,7 @@ a.help {
     /* width: calc(100% - 125px); */
     display: block;
     margin: 0px;
-    margin-top: 96px;
+    /* margin-top: 96px; */
     padding: 100px 25px 100px 100px;
     background: #f6f7f8;
     border-radius: 0px;
@@ -403,7 +403,7 @@ div#headsubmenu a:last-child {
         position: relative;
         /* width: calc(100% - 40px); */
         height: calc(100% - 146px);
-        margin: 96px 0px 0px 0px;
+        /* margin: 96px 0px 0px 0px; */
         padding: 25px 20px 25px 20px;
     }
 

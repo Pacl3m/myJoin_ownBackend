@@ -24,11 +24,11 @@ body {
 
 .frame-97 {
     width: 456px;
-    height: 100vh;
+    height: calc(100vh - 96px);
     flex-shrink: 0;
     background: var(--white, #FFF);
     box-shadow: 4px 0px 6px 0px rgba(0, 0, 0, 0.08);
-    margin-top: 96px;
+    /* margin-top: 96px; */
     padding-left: 28px;
     padding-right: 28px;
     overflow-y: scroll;
@@ -236,7 +236,7 @@ body {
     align-items: center;
     gap: 30px;
     margin-right: 128px;
-    margin-top: 110px;
+    margin-top: 16px;
     margin-bottom: 32px;
     box-sizing: border-box;
 }
@@ -823,7 +823,7 @@ body {
     }
 
     .frame-97 {
-        width: calc(390px - 56px);
+        width: 350px;
         padding-left: 28px;
         padding-right: 28px;
     }
@@ -897,10 +897,6 @@ body {
 
     .frame-112 {
         width: calc(100% - 72px);
-    }
-
-    .contacts-content {
-        margin-top: 80px;
     }
 
     div#contacts_list {
