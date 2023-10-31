@@ -46,58 +46,38 @@
                         </div>
                     </div>
                     <div class="categoryBoardAll">
-                        <div class="categoryBoardHead">
+                        <div class="categoryBoardHead" ondrop="moveTo('cardBoardToDo')" ondragover="allowDrop(event)"> <!--  -->
                             <div class="categoryBoardSub"><span>To Do</span>
                                 <div onclick="openAddTask('ToDo')" class="headBoardRightImage"><img
                                         src="assets/img/board/plusDark.png" alt="add"></div>
                             </div>
-                            <div class="cardBoardAll drag-area" ondrop="moveTo('cardBoardToDo')" ondragover="allowDrop(event)" id="cardBoardToDo">
-                                <div class="cardBoard">
-                                    <div class="cardBoardInside">
-                                        <div class="cardBoardInsideCategory">Kategorie</div>
-                                        <div class="cardBoardInsideTitleAndDescrption">
-                                            <div class="cardBoardInsideTitle">Title</div>
-                                            <div class="cardBoardInsideDescription">Beschreibung des jeweiligen Tasks
-                                            </div>
-                                        </div>
-                                        <div class="cardBoardInsideProgress"><img src="/assets/img/board/loadingBar.png"
-                                                alt="">
-                                            <p>1/2 Done</p>
-                                        </div>
-                                        <div class="cardBoardInsideUserAndPrio">
-                                            <p>Users</p><img src="/assets/img/board/PrioHigh.png" alt="">
-                                        </div>
-                                    </div>
-                                </div>
+                            <div class="cardBoardAll drag-area" id="cardBoardToDo"> <!--  -->
                             </div>
                         </div>
-                        <div class="categoryBoardHead">
+                        <div class="categoryBoardHead" ondrop="moveTo('cardBoardInProgress')" ondragover="allowDrop(event)"> <!--  -->
                             <div class="categoryBoardSub"><span>In Progress</span>
                                 <div onclick="openAddTask('InProgress')" class="headBoardRightImage"><img
                                         src="assets/img/board/plusDark.png" alt="add"></div>
                             </div>
-                            <div class="cardBoardAll drag-area" ondrop="moveTo('cardBoardInProgress')" ondragover="allowDrop(event)" id="cardBoardInProgress">
-                                <div class="cardBoard">Test Card</div>
+                            <div class="cardBoardAll drag-area" id="cardBoardInProgress"> <!--  -->
                             </div>
                         </div>
-                        <div class="categoryBoardHead">
+                        <div class="categoryBoardHead" ondrop="moveTo('cardBoardAwaitingfeedback')" ondragover="allowDrop(event)"><!--  -->
                             <div class="categoryBoardSub"><span>Awaiting
                                     Feedback</span>
                                 <div onclick="openAddTask('Awaitingfeedback')" class="headBoardRightImage"><img
                                         src="assets/img/board/plusDark.png" alt="add"></div>
                             </div>
-                            <div class="cardBoardAll cardBoardAllAWFB drag-area" ondrop="moveTo('cardBoardAwaitingfeedback')" ondragover="allowDrop(event)" id="cardBoardAwaitingfeedback">
-                                <div class="cardBoard">Test Card</div>
+                            <div class="cardBoardAll cardBoardAllAWFB drag-area" id="cardBoardAwaitingfeedback"> <!--  -->
                             </div>
                         </div>
-                        <div class="categoryBoardHead">
+                        <div class="categoryBoardHead" ondrop="moveTo('cardBoardDone')" ondragover="allowDrop(event)"> <!--  -->
                             <div class="categoryBoardSub"><span>Done</span>
                                 <div class="headBoardRightImageBlind"><img src="assets/img/board/plusDark.png"
                                         alt="add">
                                 </div>
                             </div>
-                            <div class="cardBoardAll cardBoardAllDone drag-area" ondrop="moveTo('cardBoardDone')" ondragover="allowDrop(event)" id="cardBoardDone">
-                                <div class="cardBoard">Test Card</div>
+                            <div class="cardBoardAll cardBoardAllDone drag-area" id="cardBoardDone"> <!--  -->
                             </div>
                         </div>
                     </div>

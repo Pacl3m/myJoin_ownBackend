@@ -1,38 +1,13 @@
-// const STORAGE_TOKEN = '3ENG5I37YYIRIRHAMOTSPWZ7QUU5KTVYOANLRZYR';
 const STORAGE_TOKEN = 'NXG6821GC3N8UKZYZ3LB1K13W6AEIKIER4AO8G0M';
 const STORAGE_URL = 'https://remote-storage.developerakademie.org/item';
 
-//Save and load contacts
-// function saveContactsToStorage(){
-//     let contactsAsString = JSON.stringify(Contacts);
-//     localStorage.setItem('contacts', contactsAsString);
-// }
 
-// function getContactsFromStorage(){
-
-//     let contactsAsString = localStorage.getItem('contacts');
-//     if(contactsAsString){
-//     Contacts = JSON.parse(contactsAsString);
-// }
-// }
-
-
-//Save and load cards
-// function saveCardsToStorage() {
-//     let cardsAsString = JSON.stringify(cards);
-//     localStorage.setItem('cards', cardsAsString);
-// }
-
-// function getCardsFromStorage() {
-
-//     let cardsAsString = localStorage.getItem('cards');
-//     if (cardsAsString) {
-//         cards = JSON.parse(cardsAsString);
-//     }
-// }
-
-
-//Save and load contacts in remoteStorage
+/**
+ * Saves the contacts array to the storage using a POST request.
+ * @async
+ * @function
+ * @returns {Promise<Object>} A Promise that resolves to the response from the storage.
+ */
 async function saveContactsToStorage() {
     let key = 'contacts';
     let value = Contacts;
@@ -40,6 +15,10 @@ async function saveContactsToStorage() {
     return fetch(STORAGE_URL, {method: 'POST', body: JSON.stringify(payload)}).then(res => res.json());
 }
 
+
+/**
+ * Loads contacts from the storage
+ */
 async function getContactsFromStorage() {
     let key = 'contacts';
     let url = `${STORAGE_URL}?key=${key}&token=${STORAGE_TOKEN}`;
@@ -58,7 +37,10 @@ async function getContactsFromStorage() {
 }
 
 
-//Save and load cards in remoteStorage
+/**
+ * Save and load cards in remoteStorage
+ * @returns {Promise<Object>} A Promise that resolves to the response from the storage.
+ */
 async function saveCardsToStorage() { 
     let key = 'cards';
     let value = cards;
@@ -67,6 +49,9 @@ async function saveCardsToStorage() {
 }
 
 
+/**
+ * Loads cards from the storage
+ */
 async function getCardsFromStorage() { 
     let key = 'cards';
     let url = `${STORAGE_URL}?key=${key}&token=${STORAGE_TOKEN}`;
@@ -85,7 +70,10 @@ async function getCardsFromStorage() {
 }
 
 
-//Save and load categories in remoteStorage
+/**
+ * Saves categories in the storage
+ * @returns {Promise<Object>} A Promise that resolves to the response from the storage. 
+ */
 async function saveCategoriesToStorage() {
     let key = 'categories';
     let value = categories;
@@ -93,6 +81,10 @@ async function saveCategoriesToStorage() {
     return fetch(STORAGE_URL, {method: 'POST', body: JSON.stringify(payload)}).then(res => res.json());
 }
 
+
+/**
+ * Loads categories from the storage
+ */
 async function getCategoriesFromStorage() {
     let key = 'categories';
     let url = `${STORAGE_URL}?key=${key}&token=${STORAGE_TOKEN}`;

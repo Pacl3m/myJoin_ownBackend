@@ -106,7 +106,8 @@ html::-webkit-scrollbar {
     height: auto;
     flex-direction: column;
     align-items: center;
-    gap: 15px;
+    gap: 16px;
+    flex: 25%
 }
 
 .categoryBoard {

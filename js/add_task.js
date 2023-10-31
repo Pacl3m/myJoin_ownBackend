@@ -26,9 +26,12 @@ let downArrow = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" 
 </g>
 </svg>`;
 
-/** This is the main function that gets the two arrays from remote storage and generates a needed array.*/
 let addedSubtasks = [];
 let isFormValidated = false;
+
+/**
+ * This is the main function that gets the two arrays from remote storage and generates a needed array.
+ */
 async function main() {
     let contactsInTask = [];
     await getContactsFromStorage();
@@ -48,7 +51,9 @@ async function main() {
     window.addedContacts = contactsInTask;
 };
 
-/** This function checks for assigned users to the task and makes them a global variable to later be added to the array "Cards". */ 
+/** 
+ * This function checks for assigned users to the task and makes them a global variable to later be added to the array "Cards". 
+ */
 function addTheUsers() {
     let usersToBeAdded = [];
     let fullNamesToBeAdded = [];
@@ -63,14 +68,18 @@ function addTheUsers() {
     window.addedUsersFullNames = fullNamesToBeAdded;
 }
 
-/** This function makes the priority a global variable to later be added to the array "Cards".*/ 
+/** 
+ * This function makes the priority a global variable to later be added to the array "Cards".
+ */
 function setPriority() {
     if (priority == '0') { window.prio = "Urgent" };
     if (priority == '1') { window.prio = "Medium" };
     if (priority == '2') { window.prio = "Low" };
 }
 
-/** This function gets all the values from the input fields and generates an object that is later going to be added to the array "Cards".*/ 
+/** 
+ * This function gets all the values from the input fields and generates an object that is later going to be added to the array "Cards".
+ */
 function generateNewTaskObject(currentListType) {
     let inputTitle = document.getElementById('addTaskTitle').value;
     let description = document.getElementById('descriptionTextArea').value;
@@ -90,7 +99,9 @@ function generateNewTaskObject(currentListType) {
     window.theNewTask = theTaskToBeAdded;
 }
 
-/** This function navigates to board.html with a timer of 1500 milliseconds.*/ 
+/** 
+ * This function navigates to board.html with a timer of 1500 milliseconds.
+ */
 function navigateToBoard() {
     setTimeout(() => {
         document.location.href = "board.html";
@@ -98,7 +109,9 @@ function navigateToBoard() {
 
 }
 
-/** This function generates and saves the card in to the remote storage with help of all the small help-functions that are called inside of it.*/  
+/**
+ * This function generates and saves the card in to the remote storage with help of all the small help-functions that are called inside of it.
+ */
 async function addTaskToBoard(currentListType) {
     checkForInput();
     if (isFormValidated) {
@@ -114,7 +127,9 @@ async function addTaskToBoard(currentListType) {
     }
 }
 
-/** This function validates the input before allowing the card to be saved to remote storage.*/
+/**
+ * This function validates the input before allowing the card to be saved to remote storage.
+ */
 function checkForInput() {
     let inputTitle = document.getElementById('addTaskTitle').value;
     let description = document.getElementById('descriptionTextArea').value;
@@ -147,7 +162,9 @@ function checkForInput() {
     }
 }
 
-/** This function generates the drop down menu with the avaliable categories.*/ 
+/** 
+ * This function generates the drop down menu with the avaliable categories.
+ */
 function openCategoryDropDown() {
     let categoryMainContainer = document.getElementById('category');
     categoryMainContainer.innerHTML = "";
@@ -165,7 +182,9 @@ function openCategoryDropDown() {
     }
 }
 
-/** This function generates the input field and color choice for the addition of a category.*/
+/**
+ * This function generates the input field and color choice for the addition of a category.
+ */
 function openCategoryInput() {
     let categoryContainer = document.getElementById('addCategory');
     categoryContainer.innerHTML = "";
@@ -184,13 +203,19 @@ function openCategoryInput() {
     renderSelectableCategoryColors();
 }
 
-/** This function closes the category input field without selecting a category.*/
+/** 
+ * This function closes the category input field without selecting a category.
+ */
 function closeCategoryInput() {
     document.getElementById('category').innerHTML = "";
     document.getElementById('category').innerHTML = `<h5>Category</h5><div class="selectContainer addcatph" id="addCategory" onclick="openCategoryDropDown()">Select task category</div>`;
 }
 
-/** This function closes the category input field and returns a global variable of the chosen category.*/
+/**
+ * Updates the selected category element and displays it in the UI.
+ * @param {number} x - The index of the selected category.
+ * @returns {void}
+ */
 function selectedCategory(x) {
     let element = categories[x];
     document.getElementById('category').innerHTML = `
@@ -205,7 +230,10 @@ function selectedCategory(x) {
     window.theChosenCategory = x;
 }
 
-/** This function renders the available colors to assign to the newly created category.*/ 
+/**
+ * Renders the selectable category colors in the UI.
+ * @returns {void}
+ */
 function renderSelectableCategoryColors() {
     let selectableColorsMainDIV = document.getElementById('selectable_category_colors');
     selectableColorsMainDIV.innerHTML = "";
@@ -220,7 +248,13 @@ function renderSelectableCategoryColors() {
     }
 }
 
-/** This function returns a global variable of the selected color for the new category.*/
+
+/**
+ * Handles the selection of a category color.
+ * @function
+ * @param {string} x - The selected category color.
+ * @returns {void}
+ */
 function selectedCategoryColor(x) {
     renderSelectableCategoryColors();
     window.newCategoryColor = x;
@@ -228,7 +262,12 @@ function selectedCategoryColor(x) {
     selectedColorContainer.classList.add('stroke-width-2');
 }
 
-/** This function creates and adds the new category to remote storage.*/
+/**
+ * Adds a new category to the list of categories.
+ * @async
+ * @function
+ * @returns {Promise<void>}
+ */
 async function addCategory() {
     let categoryNameInput = document.getElementById('added_category_name').value;
     categoryValue = categoryNameInput.toLowerCase();
@@ -243,7 +282,13 @@ async function addCategory() {
     await getCardsFromStorage()
 }
 
-/** This function generates the selectable contacts drop down list. */
+/**
+ * Opens the dropdown for selecting contacts.
+ * This function generates and displays a container with selectable contacts.
+ * It also checks if a contact has been added and handles it accordingly.
+ * @function
+ * @returns {void}
+ */
 function openDropdownContact() {
     openTranspOverlay();
     removeClassTranspOverlay();
@@ -265,8 +310,11 @@ function openDropdownContact() {
     }
 }
 
-/** This function generates the empty body of the selectable contacts list.*/ 
-function generateOpenAddContactMainContainer(){
+
+/**
+ * This function generates the empty body of the selectable contacts list.
+ */
+function generateOpenAddContactMainContainer() {
     let addContactMainContainer = document.getElementById('assigned_to');
     addContactMainContainer.innerHTML = "";
     addContactMainContainer.innerHTML += `<h5>Assigned to</h5>
@@ -274,7 +322,15 @@ function generateOpenAddContactMainContainer(){
     <div class="contacts_list_add_task" id="addContact"></div>`;
 }
 
-/** This function generates the contacts that have not been added to the selected contacts list.*/ 
+
+/**
+ * Generates HTML for an unselected contact and appends it to the 'addContact' container.
+ * This function creates a visual representation of an unselected contact with a name, initials, and a checkbox.
+ * @function
+ * @param {number} j - The index of the contact.
+ * @param {Object} element - The contact object containing firstName and lastName properties.
+ * @returns {void}
+ */
 function generateUnselectedContact(j, element) {
     let addContactContainer = document.getElementById('addContact');
     let firstTwoLetters = element['firstName'].charAt(0) + element['lastName'].charAt(0);
@@ -295,7 +351,15 @@ function generateUnselectedContact(j, element) {
     </div>`
 }
 
-/** This function generates the contacts that have been added to the selected contacts list. */ 
+/** This function generates the contacts that have been added to the selected contacts list. */
+
+/**
+ * Generates HTML for a selected contact and appends it to the 'addContact' container.
+ * This function creates a visual representation of an unselected contact with a name, initials, and a checkbox.
+ * @function
+ * @param {number} j - the index of the contact. 
+ * @param {Object} element - The contact object containing firstName and lastName properties.
+ */
 function generateSelectedContact(j, element) {
     let addContactContainer = document.getElementById('addContact');
     let firstTwoLetters = element['firstName'].charAt(0) + element['lastName'].charAt(0);
@@ -316,13 +380,18 @@ function generateSelectedContact(j, element) {
         </div>`
 }
 
-/** This function generates a transparent overlay that is used to close the dropdown contact list */
+
+/**
+ * This function generates a transparent overlay that is used to close the dropdown contact list
+ */
 function openTranspOverlay() {
     let transparentOverlay = document.getElementById('transparentoverlay');
     transparentOverlay.style.display = "block";
 }
 
-/** This function closes the dropdown contact list and at the same time removes the transparent overlay that is used to close that same list */
+/** 
+ * This function closes the dropdown contact list and at the same time removes the transparent overlay that is used to close that same list 
+ */
 function closeTranspOverlay() {
     let transparentOverlay = document.getElementById('transparentoverlay');
     transparentOverlay.style.display = "none";
@@ -331,19 +400,25 @@ function closeTranspOverlay() {
     }
 }
 
-/** This is a help function that adds a certain classlist to the corresponding object id  */
+/** 
+ * This is a help function that adds a certain classlist to the corresponding object id  
+ */
 function classToTranspOverlay() {
     let transparentOverlay = document.getElementById('transparentoverlay');
     transparentOverlay.classList.add("dropdownclosed");
 }
 
-/** This is a help function that removes a certain classlist to the corresponding object id  */
+/** 
+ * This is a help function that removes a certain classlist to the corresponding object id  
+ */
 function removeClassTranspOverlay() {
     let transparentOverlay = document.getElementById('transparentoverlay');
     transparentOverlay.classList.remove("dropdownclosed");
 }
 
-/** This function finds the currently logged in user in the contacts list, and adds the word (You) next to the same contact when generating the contacts */ 
+/** 
+ * This function finds the currently logged in user in the contacts list, and adds the word (You) next to the same contact when generating the contacts 
+ */
 function currentUserCheck(j) {
     let currentUserLabel = document.getElementById(`currentUserCheck${j}`);
     if (currentUser < Contacts.length) {
@@ -353,8 +428,10 @@ function currentUserCheck(j) {
     }
 }
 
-/** This function generates two arrays from the added contacts to the task. The first array is for the first and last name of the added contact,
- * and the second array is for the ids from the array Contacts, of the added contacts to the task. */
+/** 
+ * This function generates two arrays from the added contacts to the task. The first array is for the first and last name of the added contact,
+ * and the second array is for the ids from the array Contacts, of the added contacts to the task. 
+ */
 function addContactToTask() {
     let addedContactsToTask = [];
     let addedIdsToTask = [];
@@ -376,37 +453,52 @@ function addContactToTask() {
     window.addedIds = addedIdsToTask;
 }
 
-/** This function generates the object to be added to the addedContactsToTask array from the assigned contact.*/
-function generateTheAddedContact(contact){
-    let addedContactFirstName = contact['firstName'];
-            let addedContactLastName = contact['lastName'];
-            let added = 'yes';
-            let theAddedContact = {
-                "firstName": addedContactFirstName,
-                "lastName": addedContactLastName,
-                "added": added,
-            };
-            window.addedContactToTask = theAddedContact;
 
+/**
+ * This function generates the object to be added to the addedContactsToTask array from the assigned contact
+ * @function
+ * @param {Array} contact - The contact object containing firstName and lastName properties.
+ * @returns {void}
+ */
+function generateTheAddedContact(contact) {
+    let addedContactFirstName = contact['firstName'];
+    let addedContactLastName = contact['lastName'];
+    let added = 'yes';
+    let theAddedContact = {
+        "firstName": addedContactFirstName,
+        "lastName": addedContactLastName,
+        "added": added,
+    };
+    window.addedContactToTask = theAddedContact;
 }
 
-/** This function generates the object to be added to the addedContactsToTask array from the unassigned contact.*/
-function generateTheNotAddedContact(contact){
+/**
+ * Generates an object representing a not added contact based on the provided contact information.
+ * This function creates an object with firstName, lastName, and added properties, indicating that the contact has not been added.
+ * @function
+ * @param {Object} contact - The contact object containing firstName and lastName properties.
+ * @returns {void}
+ */
+function generateTheNotAddedContact(contact) {
     let addedContactFirstName = contact['firstName'];
-            let addedContactLastName = contact['lastName'];
-            let added = 'no';
-            let theAddedContact = {
-                "firstName": addedContactFirstName,
-                "lastName": addedContactLastName,
-                "added": added,
-            };
-            window.addedContactToTask = theAddedContact;
-
+    let addedContactLastName = contact['lastName'];
+    let added = 'no';
+    let theAddedContact = {
+        "firstName": addedContactFirstName,
+        "lastName": addedContactLastName,
+        "added": added,
+    };
+    window.addedContactToTask = theAddedContact;
 }
 
 
 
-/** This funtion closes the drop down menu and generates the button for openning the same menu for the selection of a contact from the contact list.*/
+/**
+ * Closes the dropdown contact selection, adds selected contacts to the task, and updates the UI accordingly.
+ * This function clears the assigned_to container, re-renders the contact selection input, and updates the overlay classes.
+ * @function
+ * @returns {void}
+ */
 function closeDropdownContact() {
     addContactToTask();
     let addContactMainContainer = document.getElementById('assigned_to');
@@ -419,7 +511,12 @@ function closeDropdownContact() {
     //closeTranspOverlay();
 }
 
-/** This function renders the nametags of the selected contacts.*/ 
+/**
+ * Renders the labels for added contacts in the 'assigned_to' container.
+ * This function dynamically creates and updates the HTML content based on the 'addedContacts' array.
+ * @function
+ * @returns {void}
+ */
 function renderAddedContactLabels() {
     let addContactMainContainer = document.getElementById('assigned_to');
     addContactMainContainer.innerHTML += `<div class="added-contacts-name-tags-main" id="added_contacts_name_tags_main"> </div>`;
@@ -440,7 +537,13 @@ function renderAddedContactLabels() {
     }
 }
 
-/** This function checks the checkbox and changes the appearance of the contact in the contact list depending on if the contact has been added to the task or not.*/ 
+/**
+ * Handles the selection of a contact.
+ * Toggles the checkbox state and applies a CSS class to visually indicate selection.
+ * @function
+ * @param {number} y - The index of the contact to be selected.
+ * @returns {void}
+ */
 function selectedContact(y) {
     let checkBox = document.getElementById(`checkBox_${y}`);
     checkBox.click();
@@ -454,6 +557,12 @@ function selectedContact(y) {
 }
 
 /** This function toggles the active state prio options  */
+
+/**
+ * This function toggles the active state prio options 
+ * @param {number} j - The index of the priority button to be activated.
+ * @returns {void}
+ */
 function addActiveState(j) {
     let btnsTip = document.getElementById('prioButtons').getElementsByClassName('SubTaskPrios');
     if (btnsTip[j].classList.contains('active-state')) {
@@ -469,7 +578,12 @@ function addActiveState(j) {
     window.priority = priorityNumber;
 };
 
-/** This function generates the input field for the creation of new subtask.*/
+
+/**
+ * Opens the input field for adding a new subtask.
+ * Clears the container and inserts input field, close button, separator, and add button.
+ * @returns {void}
+ */
 function openSubtaskInput() {
     let addSubtaskContainer = document.getElementById('addNewSubtask');
     addSubtaskContainer.innerHTML = "";
@@ -483,7 +597,11 @@ function openSubtaskInput() {
         `;
 }
 
-/** This function closes the subtask input field and generates the button for the opening of the addition of a new subtask.*/ 
+/**
+ * Cancels the input of a new subtask.
+ * Clears the container and restores the default "Add new subtask" message with an icon.
+ * @returns {void}
+ */
 function cancelSubtaskInput() {
     let addSubtaskContainer = document.getElementById('addNewSubtask');
     addSubtaskContainer.innerHTML = "";
@@ -493,9 +611,13 @@ function cancelSubtaskInput() {
     </svg>`;
 }
 
-/** This function generates the container with the added subtask, also creates an entry in the addedSubtasks array with the newly added subtask.*/
+/**
+ * Handles the addition of a new subtask.
+ * It gets the input value for the subtask name, generates the subtask element,
+ * updates the UI, and adds the subtask to the list of subtasks.
+ * @returns {void}
+ */
 function addSubtask() {
-
     let addSubtaskContainer = document.getElementById('addNewSubtask');
     let addedSubtaskNameInput = document.getElementById('added_subtask').value;
     addSubtaskContainer.innerHTML = "";
@@ -512,8 +634,12 @@ function addSubtask() {
     window.subtasks = addedSubtasks;
 }
 
-/** This function generates the container with the added subtask. */
-function generateTheNewSubtask(addedSubtaskNameInput){
+/**
+ * Generates a new subtask element with the provided name and adds it to the subtask container.
+ * @param {string} addedSubtaskNameInput - The name of the new subtask.
+ * @returns {void}
+ */
+function generateTheNewSubtask(addedSubtaskNameInput) {
     let subtaskMain = document.getElementById('subtask_main');
     subtaskMain.innerHTML += `<div class="boxes">
     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
@@ -531,7 +657,10 @@ function generateTheNewSubtask(addedSubtaskNameInput){
 </div>`;
 }
 
-/** This function generates and animates the small floating info-box at the task creation success.*/
+/**
+ * Displays the task creation success container by removing the 'd-none' class and adding animation class.
+ * @returns {void}
+ */
 function showTaskCreationSuccess() {
     let theContainerToShow = document.getElementById('task_creation_success');
     theContainerToShow.classList.remove('d-none');

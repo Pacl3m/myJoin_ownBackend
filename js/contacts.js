@@ -105,7 +105,9 @@ let addNewContactButton = `<button class="new-contact" onclick="renderAddNewCont
 </button>`;
 
 
-/** This function goes through the entire length of the array Contacts and gets the initials of the saved contact. */
+/**
+ * This function goes through the entire length of the array Contacts and gets the initials of the saved contact
+ */
 function getFirstLetters() {
     let allFirstLetters = [];
     for (let j = 0; j < Contacts.length; j++) {
@@ -124,22 +126,16 @@ function getFirstLetters() {
 /**
  * This is a help function used to make the function renderContactsList cleaner and more readable. 
  * It is used to generate the HTML code that displays the contacts in the contact list that go after the letter tab separator as well as to generate that same letter tab separator. 
- * 
- * 
  * @param {string} element This parameter is the variable that is defined in a for loop and used in the other function that is calling this function. 
  *                          The value is the corresponding object from the array Contacts.
- * 
  * @param {string} firstLetter This parameter is the variable that is defined and used in the other function that is calling this function. 
  *                              The value is the first letter of the name from the person in the corresponding object from the array Contacts.
  *                              It is used to generate the letter tab separator.
- * 
  * @param {*} firstTwoLetters This parameter is the variable that is defined and used in the other function that is calling this function. 
  *                              The value is first letter of the name and surname from the person in the corresponding object from the array Contacts.
  *                              It is used to generate the name tag of the person in the contact list.  
- * 
  * @param {*} contactsList  This parameter is the variable that is defined and used in the other function that is calling this function. 
  *                              It is used to address a certain html element with the corresponding id.
- * 
  * @param {*} i This parameter is the index that corresponds to the sequence number in a for loop that runs in the function that is calling this function.
  *              It is used to generate certain elements from the same index in the array Contacts.
  */
@@ -174,21 +170,17 @@ function renderContactWithLetterSeparator(element, firstLetter, firstTwoLetters,
                 `
 }
 
+
 /**
  * This is a help function used to make the function renderContactsList cleaner and more readable. 
  * It is used to generate the HTML code that displays the contacts in the contact list that go right after the first contact in a alphabetically sorted contact group. 
- * 
- * 
  * @param {string} element This parameter is the variable that is defined in a for loop and used in the other function that is calling this function. 
  *                          The value is the corresponding object from the array Contacts.
- * 
  * @param {*} firstTwoLetters This parameter is the variable that is defined and used in the other function that is calling this function. 
  *                              The value is first letter of the name and surname from the person in the corresponding object from the array Contacts.
  *                              It is used to generate the name tag of the person in the contact list.  
- * 
  * @param {*} contactsList  This parameter is the variable that is defined and used in the other function that is calling this function. 
  *                              It is used to address a certain html element with the corresponding id.
- * 
  * @param {*} i This parameter is the index that corresponds to the sequence number in a for loop that runs in the function that is calling this function.
  *              It is used to generate certain elements from the same index in the array Contacts.
  */
@@ -214,7 +206,9 @@ function renderContactWithoutLetterSeparator(element, firstTwoLetters, contactsL
         </div>`
 }
 
-/** This function is being used to generate and display the contacts list and all of its inside elements, including the add new contact button, letter tab separators etc..*/
+/** 
+ * This function is being used to generate and display the contacts list
+ */
 async function renderContactsList() {
     await getContactsFromStorage();
     sortContactsAlphabetically(Contacts);
@@ -234,7 +228,9 @@ async function renderContactsList() {
     }
 }
 
-/** This function is being used for the animation of the detailed contact card. */
+/**
+*  This function is being used for the animation of the detailed contact card. 
+*/
 function animateContactCard() {
     let contactCardContainer = document.getElementById('floating_contact');
     contactCardContainer.classList.remove('floating-contact-animate');
@@ -242,7 +238,10 @@ function animateContactCard() {
     contactCardContainer.classList.add('floating-contact-animate');
 }
 
-/** This function is used for the display of the detailed contact card. */
+/**
+ * This function is used for the display of the detailed contact card.
+ * @param {number} x This parameter is the corresponding index number of the object in the array Contacts
+ */
 async function showContactDetails(x) {
     await markActiveContact(x);
     let contact = document.getElementById(`contact_${[x]}`);
@@ -259,15 +258,11 @@ async function showContactDetails(x) {
 
 /**
  * This function is called from the showContactDetails function. It generates the HTML code that renders and displays the detailed contact card.
- * 
  * @param {number} x This parameter is the variable that is used to address certain elements and keys that correspond to the object in the array Contacts with the same index.
- *  
  * @param {string} element This parameter is the variable that is defined and used in the other function that is calling this function. 
  *                         The value is the corresponding object from the array Contacts.
- * 
  * @param {string} contactCardContainer  This parameter is the variable that is defined and used in the other function that is calling this function. 
  *                                       It is used to address a certain html element with the corresponding id.
- * 
  * @param {string} firstTwoLetters This parameter is the variable that is defined and used in the other function that is calling this function.
  *                                 It is used to generate the first letter of the name and surname of the person in the corresponding object in the array Contacts,
  *                                 for generating the name tag.
@@ -315,6 +310,7 @@ function renderContactDetails(x, element, contactCardContainer, firstTwoLetters)
 
 }
 
+
 /**
  * This function is used to mark the selected/active contact from the contacts list.
  * @param {number} x This parameter is the corresponding index number of the object in the array Contacts.
@@ -325,17 +321,28 @@ async function markActiveContact(x) {
     await contact.classList.add('background-color-2A3647', 'pointer-events-none');
 }
 
-/** This function is used to show the contact details in the mobile version of the webpage. */
+
+/**
+ * This function is used to show the contact details in the mobile version of the webpage.
+ */
 function displayContact() {
     let displayContacts = document.getElementById('contact-page');
     displayContacts.style = "display:block; position:relative;";
 }
-/** This function closes the contact details and returns to the contacts list in the mobile version of the webpage */
+
+
+/** 
+ * This function closes the contact details and returns to the contacts list in the mobile version of the webpage 
+ */
 function backToContacts() {
     let displayContacts = document.getElementById('contact-page');
     displayContacts.style = "display:none; position:relative;";
 }
-/** This function opens the edit contact menu in the mobile version of the webpage */
+
+
+/** 
+ * This function opens the edit contact menu in the mobile version of the webpage 
+ */
 function showContactEditMenu() {
     let subMenu = document.getElementById('edit-contact');
     let editOverlay = document.getElementById('editcontactoverlay');
@@ -347,18 +354,30 @@ function showContactEditMenu() {
         subMenu.style = "display: none;";
     };
 }
-/** This function closes the edit contact menu in the mobile version of the webpage */
+
+
+/**
+ * This function closes the edit contact menu in the mobile version of the webpage
+ */
 function closeEditOverlay() {
     let subMenu = document.getElementById('edit-contact');
     let editOverlay = document.getElementById('editcontactoverlay');
     editOverlay.style = "display: none;";
     subMenu.style = "display: none;";
 }
-/**This function is used to delete a contact from the contacts list */
-function deleteContact(x) {
+
+
+/**
+ * Deletes a contact by its index.
+ * @param {number} x - The index of the contact to be deleted.
+ * @returns {void}
+ * @throws {Error} When trying to delete the current user.
+ */
+async function deleteContact(x) {
     if (x === currentUser) {
         alert('Du kannst dich nicht selber löschen')
     } else {
+        await deleteContactInCards(x);
         Contacts.splice(x, 1);
         if (currentUser > x && currentUser !== 1000) {
             currentUser--
@@ -370,7 +389,29 @@ function deleteContact(x) {
     }
 }
 
-/** This function generates the HTML code used to display the add new contact overlay container.  */
+
+/**
+ * Deletes a contact from cards data.
+ * @param {number} x - The index of the contact to be deleted.
+ * @returns {Promise<void>}
+ */
+async function deleteContactInCards(x) {
+    await getCardsFromStorage();
+    const searchedName = `${Contacts[x].firstName} ${Contacts[x].lastName}`;
+    cards.forEach(card => {
+        let index = card.assignedUserFullName.indexOf(searchedName);
+        if (index !== -1) {
+            card.assignedUserFullName.splice(index, 1);
+            card.assignedUser.splice(index, 1);
+        }
+    });
+    await saveCardsToStorage();
+}
+
+
+/** 
+ * This function generates the HTML code used to display the add new contact overlay container.
+ */
 function renderAddNewContact() {
     let overlayNewContact = document.getElementById('overlay_new_contact');
     overlayNewContact.classList.remove('d-none');
@@ -433,7 +474,9 @@ function renderAddNewContact() {
 
 }
 
-/** This function closes the add new contact overlay without saving the changes anywhere. */
+/** 
+ * This function closes the add new contact overlay without saving the changes anywhere. 
+ */
 function closeNewContact() {
     let newContactOverlayDiv = document.getElementById('overlay_new_contact');
     let newContactMainDiv = document.getElementById('new_contact_main');
@@ -447,59 +490,57 @@ function closeNewContact() {
 
 }
 
-/** This is a generic all-purpose function that is used to stop the propagation of a certain function  */
+/** 
+ * This is a generic all-purpose function that is used to stop the propagation of a certain function  
+ */
 function doNotClose(event) {
     event.stopPropagation();
 }
 
-/** This function gets all values from the input fields and does certain checks before saving the new contact in the Contacts array*/
+
+/**
+ * Creates a new contact and adds it to the contact list.
+ *
+ * @returns {Promise<void>}
+ */
 async function createNewContact() {
-    let nameInput = document.getElementById('add_contact_name').value;
+    const nameInput = document.getElementById('add_contact_name').value;
     if (checkTwoWords(nameInput)) {
-        let nameArray = nameInput.split(' ');
-        let firstName = nameArray[0];
-        let lastName = nameArray[1];
-        let emailInput = document.getElementById('add_contact_email').value;
-        let phoneInput = document.getElementById('add_contact_phone').value;
-        let firstTwoLetters = firstName.charAt(0) + lastName.charAt(0);
-        let newContact = {
-            "firstName": firstName,
-            "lastName": lastName,
-            "phone": phoneInput,
-            "email": emailInput,
-            "color": "black",
-            "firstLetters": firstTwoLetters,
-            "name": nameInput,
-            "password": '1234',
-        };
-        let alreadyUser = 0;
-        for (let m = 0; m < Contacts.length; m++) {
-            if (Contacts[m]["email"] == emailInput) {
-                document.getElementById('messageExistingContact').style.display = 'block';
-                alreadyUser = 1;
-                break;
-            } else { break }
-        }
-        if (alreadyUser != 1) {
+        const [firstName, lastName] = nameInput.split(' ');
+        const emailInput = document.getElementById('add_contact_email').value;
+        const phoneInput = document.getElementById('add_contact_phone').value;
+        const firstTwoLetters = firstName.charAt(0) + lastName.charAt(0);
+        const alreadyUser = Contacts.some(contact => contact.email === emailInput);
+        if (!alreadyUser) {
+            const newContact = {
+                "firstName": firstName,
+                "lastName": lastName,
+                "phone": phoneInput,
+                "email": emailInput,
+                "color": "black",
+                "firstLetters": firstTwoLetters,
+                "name": nameInput,
+                "password": '1234',
+            };
             Contacts.push(newContact);
             sortContactsAlphabetically(Contacts);
             await saveContactsToStorage();
-            let theIndex = Contacts.findIndex(x => x.email === emailInput);
-            console.log(theIndex);
-
+            const theNewId = findContactIdByEmail(Contacts, emailInput);
+            const target = document.getElementById(`contact_${theNewId}`);
             closeNewContact();
             await renderContactsList();
-            let theNewId = findContactIdByEmail(Contacts, emailInput);
-            target = document.getElementById(`contact_${theNewId}`);
             setTimeout(() => {
                 scrollToNewContact('contacts_list', `contact_${theNewId}`);
                 setTimeout(() => {
                     target.click();
-                }, "550");
-            }, "550");
+                }, 550);
+            }, 550);
+        } else {
+            document.getElementById('messageExistingContact').style.display = 'block';
         }
     }
 }
+
 
 /**
  * Check if the input field contains 2 words
@@ -518,7 +559,11 @@ function checkTwoWords(nameInput) {
     }
 }
 
-/** This function goes sorts the entries in the array contacts alphabetically. It is usualy called from other functions before displaying the contacts list. */
+
+/**
+ * Sorts an array of contacts alphabetically by first name.
+ * @param {Array} contacts - The array of contacts to be sorted.
+ */
 function sortContactsAlphabetically(contacts) {
     contacts.sort((a, b) => {
         const nameA = a.firstName.toLowerCase();
@@ -533,17 +578,14 @@ function sortContactsAlphabetically(contacts) {
     });
 }
 
-/**This function is used to delete the current user. */
-function deleteCurrentUser() {
-    let position = Contacts.findIndex(contact => contact.firstName === 'Guest');
-    Contacts.splice(position, 1);
-    if (currentUser !== 0) {
-        let user = Contacts.findIndex(contact => contact.firstName === Contacts[currentUser - 1].firstName);
-        Contacts.splice(user, 1);
-    }
-}
 
-/** This function goes through the entire array Contacts and finds the correspondig object id by comparing the email address against the entries in the array */
+
+/**
+ * Finds the ID of a contact based on the email address.
+ * @param {Array} contacts - The array of contacts to search in.
+ * @param {string} emailToBeFound - The email address to search for.
+ * @returns {number} - The ID of the found contact, or -1 if no contact was found.
+ */
 function findContactIdByEmail(contacts, emailToBeFound) {
     for (let i = 0; i < contacts.length; i++) {
         if (contacts[i].email === emailToBeFound) {
@@ -553,7 +595,13 @@ function findContactIdByEmail(contacts, emailToBeFound) {
     return -1;
 }
 
-/**This function is used to scroll to the corresponding container id in the contacts list */
+
+/**
+ * Scrolls to a new contact in a parent element.
+ * @param {string} parentId - The ID of the parent element.
+ * @param {string} childId - The ID of the child element (contact).
+ * @returns {void}
+ */
 function scrollToNewContact(parentId, childId) {
     const parentElement = document.getElementById(parentId);
     const childElement = document.getElementById(childId);
@@ -563,7 +611,11 @@ function scrollToNewContact(parentId, childId) {
     }
 }
 
-/** This function generates the HTML code that is used to display the edit contact overlay container */
+
+/**
+ * This function generates the HTML code that is used to display the edit contact overlay container
+ * @param {number} x 
+ */
 function renderEditContact(x) {
     let element = Contacts[x];
     let firstTwoLetters = element['firstName'].charAt(0) + element['lastName'].charAt(0);
@@ -632,7 +684,11 @@ function renderEditContact(x) {
 
 }
 
-/** This function deletes a contact from the array Contacts with the corresponding object id that is transferred as the "x" parameter */
+/**
+ * Deletes a contact from the edit view and updates the contact list.
+ * @param {number} x - The index of the contact to be deleted.
+ * @returns {Promise<void>}
+ */
 async function deleteContactFromEdit(x) {
     deleteContact(x);
     closeNewContact();
@@ -640,7 +696,11 @@ async function deleteContactFromEdit(x) {
     renderContactsList();
 }
 
-/**This function gets all the needed input values from the edit contact overlay container, and saves the changes to the correspondig object in the array Container  */
+/**
+ * Edits the details of a contact and updates the contact list.
+ * @param {number} x - The index of the contact to be edited.
+ * @returns {void}
+ */
 function editContact(x) {
     let nameInput = document.getElementById('edit_name').value;
     let nameArray = nameInput.split(' ');
@@ -659,7 +719,5 @@ function editContact(x) {
     closeNewContact();
     renderContactsList();
     document.getElementById('floating_contact').innerHTML = "";
-    showContactDetails(x)
-
-
+    showContactDetails(x);
 }

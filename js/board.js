@@ -39,6 +39,7 @@ let svgArrowLeft = `<svg width="16" height="16" xmlns="http://www.w3.org/2000/sv
 </svg>
 `;
 
+
 /**
  * Render all cards in board by loading from remote storage
  */
@@ -48,6 +49,7 @@ async function renderBoard() {
     renderBoardCards();
     getCategoriesFromStorage();
 }
+
 
 /**
  * Render all ToDo cards in board
@@ -68,6 +70,7 @@ async function renderBoardCards() {
     } renderNoCardsInCardBoard();
 }
 
+
 /**
  * Render all InProgress cards in board
  * @param {number} i - index of the Cards array
@@ -80,6 +83,7 @@ function renderBoardCardsInProgress(i) {
         renderBoardFunctionsTemplate(i);
     } else { renderBoardCardsAwaitingFeedback(i) };
 }
+
 
 /**
  * Render all AwaitingFeedback cards in board
@@ -94,6 +98,7 @@ function renderBoardCardsAwaitingFeedback(i) {
     } else { renderBoardCardsDone(i) };
 }
 
+
 /**
  * Render all Done cards in board
  * @param {number} i - index of the Cards array
@@ -106,6 +111,7 @@ function renderBoardCardsDone(i) {
     } else { }
     renderBoardFunctionsTemplate(i);
 }
+
 
 /**
  * HTML temnplate for render functions
@@ -133,6 +139,7 @@ function renderBoardTemplate(i) {
 </div>`;
 }
 
+
 /**
  * collection of other functions which are needed when render cards in board
  * @param {number} i - index of the Cards array
@@ -143,6 +150,7 @@ function renderBoardFunctionsTemplate(i) {
     renderBackgroundColorCategory(i);
     renderListTypeArrows(i);
 }
+
 
 /**
  * assign the correct color of the card category by compare category of the card with category array
@@ -158,6 +166,7 @@ function renderBackgroundColorCategory(i) {
     };
 }
 
+
 /**
  * render progressbar in card by update the bar according to amount of subtasks and checked subtasks
  * @param {number} i - index of the Cards array
@@ -172,6 +181,7 @@ function renderProgressBar(i) {
     }
 }
 
+
 /**
  * render assigned user icon with initials in card
  * @param {number} i - index of the Cards array
@@ -183,6 +193,7 @@ function renderAssignedUserInBoard(i) {
             `;
     }
 }
+
 
 /**
  * render assigned user full name in card detailed view
@@ -208,6 +219,7 @@ function renderAssignedUserFullName(i) {
     }
 }
 
+
 /**
  * render color of user icon according to assigned color in contacts array
  * @param {number} i - index of the Cards array
@@ -223,6 +235,7 @@ function findUserColor(i, j) {
     }
 }
 
+
 /**
  * set list type 0 to clear value
  */
@@ -231,6 +244,7 @@ function clearAllListTypesAmount() {
         listTypes[k]['amount'] = 0;
     }
 }
+
 
 /**
  * render 'no cards in board' placeholder for all columns
@@ -245,6 +259,7 @@ function renderNoCardsInCardBoard() {
     }
 }
 
+
 /**
  * clear all columns in board
  */
@@ -254,6 +269,7 @@ function clearBoardCards() {
     document.getElementById('cardBoardAwaitingfeedback').innerHTML = '';
     document.getElementById('cardBoardDone').innerHTML = '';
 }
+
 
 /**
  * open addTask overlay in board
@@ -273,6 +289,7 @@ function openAddTask(i) {
     }
 }
 
+
 /**
  * render addTask overlay by loading template
  */
@@ -282,6 +299,7 @@ function renderAddTask() {
     //     `;
     includeTemplates();
 }
+
 
 /**
  * close addTask overlay in board
@@ -301,12 +319,14 @@ function closeOverlay() {
     removeDropDownClass();
 }
 
+
 /**
  * stop other function when multiple functions called the same time
  */
 function doNotClose(event) {
     event.stopPropagation();
 }
+
 
 /**
  * filter cards and show or hide depending on title and description
@@ -324,6 +344,7 @@ function filterCards() {
         }
     });
 }
+
 
 /**
  * open card in detailed view in board
@@ -356,7 +377,7 @@ function openCard(i, event) {
 /**
  * Render Categorie and user details
  */
-function renderCategoriesAndUser(i){
+function renderCategoriesAndUser(i) {
     renderBackgroundColorCategoryDetail(i);
     renderAssignedUserInBoardDetail(i);
     renderAssignedUserFullName(i);
@@ -563,7 +584,7 @@ function renderPrioState(i) {
 /**
  * Render sub task mask
  */
-function renderSubTaskMask(i){
+function renderSubTaskMask(i) {
     return `
     <div class="subtask" id="subtask_main2">
         <h5>Subtasks</h5>

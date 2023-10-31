@@ -4,6 +4,7 @@
 function init() {
     startAnimation();
     getContactsFromStorage();
+    window.addEventListener('resize', handleMaxWidthChange);
 }
 
 
@@ -60,10 +61,8 @@ function togglePasswordVisibility(i) {
  */
 function setupPasswordInputEventListeners() {
     const passwordInputs = document.querySelectorAll('.passwordInput');
-
     passwordInputs.forEach((passwordInput) => {
         const passwordImage = passwordInput.nextElementSibling;
-
         passwordInput.addEventListener('focus', function () {
             updatePasswordImageSrc(passwordInput, passwordImage);
         });
@@ -90,6 +89,11 @@ function updatePasswordImageSrc(passwordInput, passwordImage) {
     }
 }
 
+/**
+ * handles the password image change
+ * @param {HTMLInputElement} passwordInput - The password input field.
+ * @param {HTMLInputElement} passwordImage - The associated password image.
+ */
 function handlePasswordImage(passwordInput, passwordImage) {
     if (passwordInput.type === 'password') {
         passwordImage.src = './assets/img/logInSignUp/hiddeneye.svg';
@@ -99,18 +103,14 @@ function handlePasswordImage(passwordInput, passwordImage) {
 }
 
 
-///////////////////// Function called when the "Remember Me" button is clicked /////////////////////////
-
 /**
  * Function called when the "Remember Me" button is clicked
  */
 function checkBox() {
     let rememberMeImg = document.getElementById('rememberMe');
-
     if (rememberMeImg.classList.contains('checkBox')) {
         localStorage.setItem('rememberMe', 0);
     }
-
     if (rememberMeImg.classList.contains('uncheckBox')) {
         rememberMeImg.classList.remove('uncheckBox');
         rememberMeImg.classList.add('checkBox');
@@ -184,17 +184,6 @@ async function signUpForm() {
         let firstTwoLetters = firstName.charAt(0) + lastName.charAt(0);
 
         saveNewUserData(firstName, lastName, emailInput, firstTwoLetters, nameInput, password1);
-        // let user = {
-        //     "firstName": firstName,
-        //     "lastName": lastName,
-        //     "phone": 'Please add a phonenumber',
-        //     "email": emailInput.value,
-        //     "color": "black",
-        //     "firstLetters": firstTwoLetters,
-        //     "name": nameInput.value,
-        //     "password": password1.value,
-        // };
-        // Contacts.push(user);
         sortContactsAlphabetically(Contacts);
         await saveContactsToStorage();
         resetInputField(nameInput, emailInput, password1, password2);
@@ -203,6 +192,16 @@ async function signUpForm() {
     }
 }
 
+/**
+ * Saves new user data to the Contacts list.
+ * @param {string} firstName - The first name of the user.
+ * @param {string} lastName - The last name of the user.
+ * @param {HTMLInputElement} emailInput - The input element for the email.
+ * @param {string} firstTwoLetters - The first two letters of the user's name.
+ * @param {HTMLInputElement} nameInput - The input element for the user's name.
+ * @param {HTMLInputElement} password1 - The input element for the password.
+ * @returns {void}
+ */
 function saveNewUserData(firstName, lastName, emailInput, firstTwoLetters, nameInput, password1) {
     let user = {
         "firstName": firstName,
@@ -289,7 +288,6 @@ function checkSamePasswort(password1, password2) {
     }
 }
 
-/////////////////////////////////////////// Forgot Password //////////////////////////////////////////////////
 
 /**
  * Function to render the Forgot Password form
@@ -376,8 +374,6 @@ document.addEventListener('DOMContentLoaded', init);
 document.addEventListener('DOMContentLoaded', handleMaxWidthChange);
 
 
-/////////////////////////////////////// moveElementbyMedia max-width 510px for SignUp Button ///////////////////////////
-
 /**
  * Moves the element with ID 'headerRight' to a new parent element.
  * @param {HTMLElement} newParent - The new parent element.
@@ -410,10 +406,6 @@ function handleMaxWidthChange() {
     }
 }
 
-window.addEventListener('resize', handleMaxWidthChange);
-
-
-/////////////////////////////////////////////// return HTML //////////////////////////////////////////////////
 
 /**
  * Returns HTML code for a login form.
