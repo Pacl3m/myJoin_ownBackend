@@ -34,8 +34,8 @@ body {
     /* display: inline-block;
     order: 2;
     flex-direction: column;
-    flex: 1;
-    width: calc(100% - 232px); */
+    flex: 1; */
+    width: calc(100% - 232px); 
     margin-left: 232px;
     background: #f6f7f8;
 }
@@ -79,11 +79,9 @@ a.help {
     display: flex;
 }
 
-.middle .content {
-    /* width: calc(100% - 125px); */
+.content {
     display: block;
     margin: 0px;
-    /* margin-top: 96px; */
     padding: 100px 25px 100px 100px;
     background: #f6f7f8;
     border-radius: 0px;
@@ -399,7 +397,7 @@ div#headsubmenu a:last-child {
         margin-left: 0px;
     }
 
-    .middle .content {
+    .content {
         position: relative;
         /* width: calc(100% - 40px); */
         height: calc(100% - 146px);

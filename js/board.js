@@ -133,7 +133,7 @@ function renderBoardTemplate(i) {
         <div><p>${cards[i]['progress']}/${cards[i]['subtasks'].length} Done</p></div>
         </div>
         <div class="cardBoardInsideUserAndPrio">
-        <div class="InsideUser" id="InsideUser${i}"></div><img src="/assets/img/board/${cards[i]['prio']}.svg" alt="">
+        <div class="InsideUser" id="InsideUser${i}"></div><img src="./assets/img/board/${cards[i]['prio']}.svg" alt="">
         </div>
     </div>
 </div>`;
@@ -570,14 +570,14 @@ function renderPrioState(i) {
     return `
     <div class="addTaskPrios" id="prioButtons2">
                                     <button class="SubTaskPrios2 red" id="prioSelect0" onclick="addActiveState2(${i},0)">Urgent<img
-                                            src="/assets/img/addtask/prio-high.svg" alt="" class="default"><img
-                                            src="/assets/img/addtask/prio-high-w.svg" alt="" class="active"></button>
+                                            src="./assets/img/addtask/prio-high.svg" alt="" class="default"><img
+                                            src="./assets/img/addtask/prio-high-w.svg" alt="" class="active"></button>
                                     <button class="SubTaskPrios2 yellow" id="prioSelect1" onclick="addActiveState2(${i},1)">Medium<img
-                                        src="/assets/img/addtask/prio-medium.svg" alt="" class="default"><img
-                                        src="/assets/img/addtask/prio-medium-w.svg" alt="" class="active"></button>
+                                        src="./assets/img/addtask/prio-medium.svg" alt="" class="default"><img
+                                        src="./assets/img/addtask/prio-medium-w.svg" alt="" class="active"></button>
                                     <button class="SubTaskPrios2 green" id="prioSelect2" onclick="addActiveState2(${i},2)">Low<img
-                                        src="/assets/img/addtask/prio-low.svg" alt="" class="default"><img
-                                        src="/assets/img/addtask/prio-low-w.svg" alt="" class="active"></button>
+                                        src="./assets/img/addtask/prio-low.svg" alt="" class="default"><img
+                                        src="./assets/img/addtask/prio-low-w.svg" alt="" class="active"></button>
                                 </div>`;
 }
 

@@ -127,6 +127,12 @@ async function addTaskToBoard(currentListType) {
     }
 }
 
+function clearTaskInput() {
+    let inputTitle = document.getElementById('addTaskTitle').value;
+    let description = document.getElementById('descriptionTextArea').value;
+    let dueDate = document.getElementById('date').value;
+}
+
 /**
  * This function validates the input before allowing the card to be saved to remote storage.
  */
