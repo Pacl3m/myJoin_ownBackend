@@ -6,7 +6,7 @@ body {
 }
 
 /* scrollbar */
-html::-webkit-scrollbar { 
+html::-webkit-scrollbar {
     width: 0px;
 }
 
@@ -396,6 +396,7 @@ html::-webkit-scrollbar {
     0% {
         transform: translateX(1500px);
     }
+
     100% {}
 }
 
@@ -409,6 +410,7 @@ html::-webkit-scrollbar {
     100% {
         transform: translateX(1500px);
     }
+
     0% {}
 }
 
@@ -1064,7 +1066,8 @@ div#addContact2 {
     .headBoard {
         display: flex;
         gap: 8px;
-        width: 600px;
+        /* width: 600px; */
+        padding-right: 32px;
     }
 
     .headBoardRight {
@@ -1077,6 +1080,9 @@ div#addContact2 {
 }
 
 @media(max-width: 992px) {
+    .categoryBoardHead {
+        width: 0;
+    }
 
     .AllMainBoard div#CardContainer {
         background: #fff;
@@ -1096,7 +1102,7 @@ div#addContact2 {
     .cardBoardAll {
         min-height: unset;
     }
-    
+
     .categoryBoardAll {
         gap: 96px;
         padding-left: 32px;
@@ -1124,6 +1130,7 @@ div#addContact2 {
     .middle .content {
         margin-right: 0 !important;
         width: 100% !important;
+        padding-left: 0px !important;
     }
 
     div#cardDetailTitle {
@@ -1148,11 +1155,19 @@ div#addContact2 {
         right: 15px;
     }
 
-    button.SubTaskPrios2, 
+    button.SubTaskPrios2,
     button.SubTaskPrios {
-       font-size: 16px!important;
-       padding: 13px 5px!important;
-       gap: 5px!important;
+        font-size: 16px !important;
+        padding: 13px 5px !important;
+        gap: 5px !important;
+    }
+}
+
+@media(max-width: 850px) {
+    .categoryBoardAll {
+        gap: 8px;
+        padding-left: 0px;
+        padding-right: 0px;
     }
 }
 
@@ -1165,6 +1180,12 @@ div#addContact2 {
 
     .content {
         padding-left: 0px !important;
+    }
+}
+
+@media(max-width: 780px) {
+    .categoryBoardHead {
+        width: 250px;
     }
 }
 
@@ -1198,9 +1219,11 @@ div#addContact2 {
     .cardBoardAllAWFB {
         margin-bottom: 128px;
     }
+
     .headBoard h1 {
         font-size: 32px !important;
     }
+
     .headBoard {
         padding-top: 0px !important;
     }
@@ -1221,7 +1244,7 @@ div#addContact2 {
         gap: 8px;
 
     }
-    
+
     .headBoard {
         width: 100%;
         gap: 8px;

@@ -80,12 +80,12 @@ a.help {
 }
 
 .content {
-    display: block;
-    margin: 0px;
+    /* display: block;
+    margin: 0px; */
     padding: 100px 25px 100px 100px;
-    background: #f6f7f8;
+    /* background: #f6f7f8;
     border-radius: 0px;
-    box-shadow: none;
+    box-shadow: none; */
 }
 
 .title {
