@@ -26,7 +26,6 @@ let downArrow = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" 
 </g>
 </svg>`;
 
-let addedSubtasks = [];
 let isFormValidated = false;
 
 /**
@@ -127,40 +126,39 @@ async function addTaskToBoard(currentListType) {
     }
 }
 
-function clearTaskInput() {
-    let inputTitle = document.getElementById('addTaskTitle').value;
-    let description = document.getElementById('descriptionTextArea').value;
-    let dueDate = document.getElementById('date').value;
+function clearAddTaskInput() {
+    priority = '';
+    addedIds = '';
+    theChosenCategory = '';
+    addedSubtasks = [];
+    subtasks = '';
+    clearAddedContacts();
+    let taskFormContainer = document.querySelector('.includeTaskForm');
+    taskFormContainer.innerHTML = '';
+    taskFormContainer.setAttribute('w3-include-html', 'templates/task_form2.html');
+    includeHTML();
+}
+
+function clearAddedContacts() {
+    for (let i = 0; i < Contacts.length; i++) {
+        const added = addedContacts[i].added;
+        if (added === 'yes') {
+            addedContacts[i].added = 'no';
+        }
+    }
 }
 
 /**
  * This function validates the input before allowing the card to be saved to remote storage.
  */
 function checkForInput() {
-    let inputTitle = document.getElementById('addTaskTitle').value;
-    let description = document.getElementById('descriptionTextArea').value;
-    let dueDate = document.getElementById('date').value;
-    if (!inputTitle) {
-        alert("Please enter a title");
-        return 0;
-    }
-    else if (!description) {
-        alert("Please enter a description");
-        return 0;
-    }
-    else if (!dueDate) {
-        alert("Please set due date");
-        return 0;
-    }
-    else if (typeof theChosenCategory === 'undefined') {
+    if (typeof theChosenCategory === 'undefined' || theChosenCategory === '') {
         document.getElementById('FieldCategory').style.display = 'block';
         return 0;
-    }
-    else if (typeof addedIds === 'undefined') {
+    } else if (typeof addedIds === 'undefined' || addedIds === '' || addedIds.length === 0) {
         document.getElementById('FieldContact').style.display = 'block';
         return 0;
-    }
-    else if (typeof priority === 'undefined') {
+    } else if (typeof priority === 'undefined' || priority === '') {
         document.getElementById('PrioCategory').style.display = 'block';
         return 0;
     } else {
@@ -168,23 +166,27 @@ function checkForInput() {
     }
 }
 
+
 /** 
  * This function generates the drop down menu with the avaliable categories.
  */
 function openCategoryDropDown() {
-    let categoryMainContainer = document.getElementById('category');
-    categoryMainContainer.innerHTML = "";
-    categoryMainContainer.innerHTML += `<h5>Category</h5><div class="selectContainer addcatph" onclick="closeCategoryInput()"> Select task category</div>
+    if (transparentoverlay.classList.contains("dropdownclosed")) {
+        openTranspOverlay();
+        let categoryMainContainer = document.getElementById('category');
+        categoryMainContainer.classList.add('openCategory');
+        categoryMainContainer.innerHTML = "";
+        categoryMainContainer.innerHTML += `<h5>Category</h5><div class="selectContainer addcatph" onclick="closeCategoryInput()"> Select task category</div>
                                                          <div class="selectCategoryContainer" id="addCategory"> </div>`;
-    let categoryContainer = document.getElementById('addCategory');
-    categoryContainer.innerHTML = "";
-    ;
-    categoryContainer.innerHTML += `<div class="category-selection" onclick="openCategoryInput()">Add category</div>`;
-    for (let i = 0; i < categories.length; i++) {
-        const element = categories[i];
-        categoryContainer.innerHTML += `<div class="category-selection" onclick="selectedCategory(${i})">${element['name']}<svg class="new-category-color">
+        let categoryContainer = document.getElementById('addCategory');
+        categoryContainer.innerHTML = "";
+        categoryContainer.innerHTML += `<div class="category-selection" onclick="openCategoryInput()">Add category</div>`;
+        for (let i = 0; i < categories.length; i++) {
+            const element = categories[i];
+            categoryContainer.innerHTML += `<div class="category-selection" onclick="selectedCategory(${i})">${element['name']}<svg class="new-category-color">
         <circle cx="50%" cy="50%" r="12" stroke="black" stroke-width="0" fill="${element['color']}" />
         </svg> </div>`;
+        }
     }
 }
 
@@ -214,6 +216,7 @@ function openCategoryInput() {
  */
 function closeCategoryInput() {
     document.getElementById('category').innerHTML = "";
+    document.getElementById('category').classList.remove('openCategory');
     document.getElementById('category').innerHTML = `<h5>Category</h5><div class="selectContainer addcatph" id="addCategory" onclick="openCategoryDropDown()">Select task category</div>`;
 }
 
@@ -234,6 +237,8 @@ function selectedCategory(x) {
         </div>
     </div>`;
     window.theChosenCategory = x;
+    transparentoverlay.style.display = "none";
+    document.getElementById('category').classList.remove('openCategory');
 }
 
 /**
@@ -296,9 +301,22 @@ async function addCategory() {
  * @returns {void}
  */
 function openDropdownContact() {
-    openTranspOverlay();
-    removeClassTranspOverlay();
-    generateOpenAddContactMainContainer();
+    if (!category.classList.contains('openCategory')) {
+        openTranspOverlay();
+        removeClassTranspOverlay();
+        generateOpenAddContactMainContainer();
+        returnAddedContacts();
+    }
+}
+
+/**
+ * Clears and populates the 'addContact' container based on the addedContacts array.
+ * If an element in addedContacts has 'added' set to 'yes', it generates a selected contact,
+ * otherwise, it generates an unselected contact.
+ * @function
+ * @returns {void}
+ */
+function returnAddedContacts() {
     let addContactContainer = document.getElementById('addContact');
     addContactContainer.innerHTML = "";
     for (let j = 0; j < Contacts.length; j++) {
@@ -400,9 +418,14 @@ function openTranspOverlay() {
  */
 function closeTranspOverlay() {
     let transparentOverlay = document.getElementById('transparentoverlay');
+    let categoryMainContainer = document.getElementById('category');
     transparentOverlay.style.display = "none";
-    if (!transparentOverlay.classList.contains("dropdownclosed")) {
+    if (!transparentOverlay.classList.contains("dropdownclosed") && !categoryMainContainer.classList.contains('openCategory')) {
         closeDropdownContact();
+    }
+    if (categoryMainContainer.classList.contains('openCategory')) {
+        // console.log('PASST');
+        closeCategoryInput();
     }
 }
 
@@ -434,136 +457,6 @@ function currentUserCheck(j) {
     }
 }
 
-/** 
- * This function generates two arrays from the added contacts to the task. The first array is for the first and last name of the added contact,
- * and the second array is for the ids from the array Contacts, of the added contacts to the task. 
- */
-function addContactToTask() {
-    let addedContactsToTask = [];
-    let addedIdsToTask = [];
-    getContactsFromStorage();
-    for (let z = 0; z < Contacts.length; z++) {
-        const checkbox = document.getElementById("checkBox_" + z);
-        const contact = Contacts[z];
-        if (checkbox.checked) {
-            generateTheAddedContact(contact);
-            addedContactsToTask.push(addedContactToTask);
-            addedIdsToTask.push(z);
-        }
-        else {
-            generateTheNotAddedContact(contact);
-            addedContactsToTask.push(addedContactToTask);
-        }
-    }
-    window.addedContacts = addedContactsToTask;
-    window.addedIds = addedIdsToTask;
-}
-
-
-/**
- * This function generates the object to be added to the addedContactsToTask array from the assigned contact
- * @function
- * @param {Array} contact - The contact object containing firstName and lastName properties.
- * @returns {void}
- */
-function generateTheAddedContact(contact) {
-    let addedContactFirstName = contact['firstName'];
-    let addedContactLastName = contact['lastName'];
-    let added = 'yes';
-    let theAddedContact = {
-        "firstName": addedContactFirstName,
-        "lastName": addedContactLastName,
-        "added": added,
-    };
-    window.addedContactToTask = theAddedContact;
-}
-
-/**
- * Generates an object representing a not added contact based on the provided contact information.
- * This function creates an object with firstName, lastName, and added properties, indicating that the contact has not been added.
- * @function
- * @param {Object} contact - The contact object containing firstName and lastName properties.
- * @returns {void}
- */
-function generateTheNotAddedContact(contact) {
-    let addedContactFirstName = contact['firstName'];
-    let addedContactLastName = contact['lastName'];
-    let added = 'no';
-    let theAddedContact = {
-        "firstName": addedContactFirstName,
-        "lastName": addedContactLastName,
-        "added": added,
-    };
-    window.addedContactToTask = theAddedContact;
-}
-
-
-
-/**
- * Closes the dropdown contact selection, adds selected contacts to the task, and updates the UI accordingly.
- * This function clears the assigned_to container, re-renders the contact selection input, and updates the overlay classes.
- * @function
- * @returns {void}
- */
-function closeDropdownContact() {
-    addContactToTask();
-    let addContactMainContainer = document.getElementById('assigned_to');
-    addContactMainContainer.innerHTML = "";
-    addContactMainContainer.innerHTML += `<h5>Assigned to</h5>
-    <input type="text" class="selectContainer" placeholder="Select contacts to assign" onclick="openDropdownContact()">
-        </input>`;
-    renderAddedContactLabels();
-    classToTranspOverlay();
-    //closeTranspOverlay();
-}
-
-/**
- * Renders the labels for added contacts in the 'assigned_to' container.
- * This function dynamically creates and updates the HTML content based on the 'addedContacts' array.
- * @function
- * @returns {void}
- */
-function renderAddedContactLabels() {
-    let addContactMainContainer = document.getElementById('assigned_to');
-    addContactMainContainer.innerHTML += `<div class="added-contacts-name-tags-main" id="added_contacts_name_tags_main"> </div>`;
-    for (let p = 0; p < addedContacts.length; p++) {
-        const element = addedContacts[p];
-        let firstTwoLetters = element['firstName'].charAt(0) + element['lastName'].charAt(0);
-        let addedContactsNameTagsMain = document.getElementById('added_contacts_name_tags_main');
-        if (element['added'] == 'yes') {
-            addedContactsNameTagsMain.innerHTML += `
-        <div class="added-contact-name-tag">
-                <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" viewBox="0 0 120 120" fill="none">
-                <circle cx="60" cy="60" r="60" fill="${nameTagsColors[p]}"/>
-                </svg>
-                <p>${firstTwoLetters}</p>
-        </div>
-        `
-        }
-    }
-}
-
-/**
- * Handles the selection of a contact.
- * Toggles the checkbox state and applies a CSS class to visually indicate selection.
- * @function
- * @param {number} y - The index of the contact to be selected.
- * @returns {void}
- */
-function selectedContact(y) {
-    let checkBox = document.getElementById(`checkBox_${y}`);
-    checkBox.click();
-    let selectedBox = document.getElementById(`addTaskContact_${y}`);
-    let hasTheClass = selectedBox.classList.contains('col_2A3647');
-    if (hasTheClass) {
-        selectedBox.classList.remove('col_2A3647');
-    } else {
-        selectedBox.classList.add('col_2A3647');
-    }
-}
-
-/** This function toggles the active state prio options  */
-
 /**
  * This function toggles the active state prio options 
  * @param {number} j - The index of the priority button to be activated.
@@ -583,85 +476,6 @@ function addActiveState(j) {
     let priorityNumber = j;
     window.priority = priorityNumber;
 };
-
-
-/**
- * Opens the input field for adding a new subtask.
- * Clears the container and inserts input field, close button, separator, and add button.
- * @returns {void}
- */
-function openSubtaskInput() {
-    let addSubtaskContainer = document.getElementById('addNewSubtask');
-    addSubtaskContainer.innerHTML = "";
-    addSubtaskContainer.innerHTML += `
-        <input type="text" placeholder="New subtask" id="added_subtask">
-        <button class="close-category-input-btn" onclick="cancelSubtaskInput()">${smallXSVG}</button>
-        <svg height="40" width="3">
-            <line x1="2" y1="8" x2="2" y2="32" style="stroke:#d1d1d1;stroke-width:2" />
-        </svg>
-        <button class="add-category-btn" onclick="addSubtask()">${checkedSmallSVG}</button>
-        `;
-}
-
-/**
- * Cancels the input of a new subtask.
- * Clears the container and restores the default "Add new subtask" message with an icon.
- * @returns {void}
- */
-function cancelSubtaskInput() {
-    let addSubtaskContainer = document.getElementById('addNewSubtask');
-    addSubtaskContainer.innerHTML = "";
-    addSubtaskContainer.innerHTML = `<p>Add new subtask</p>
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" onclick="openSubtaskInput()">
-        <path d="M12.0011 12.0002L12.0018 19.4149M4.58641 12.0008L12.0011 12.0002L4.58641 12.0008ZM19.4159 11.9995L12.0004 11.9995L19.4159 11.9995ZM12.0004 11.9995L12.0005 4.58545L12.0004 11.9995Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-    </svg>`;
-}
-
-/**
- * Handles the addition of a new subtask.
- * It gets the input value for the subtask name, generates the subtask element,
- * updates the UI, and adds the subtask to the list of subtasks.
- * @returns {void}
- */
-function addSubtask() {
-    let addSubtaskContainer = document.getElementById('addNewSubtask');
-    let addedSubtaskNameInput = document.getElementById('added_subtask').value;
-    addSubtaskContainer.innerHTML = "";
-    addSubtaskContainer.innerHTML = `<p>Add new subtask</p>
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" onclick="openSubtaskInput()">
-        <path d="M12.0011 12.0002L12.0018 19.4149M4.58641 12.0008L12.0011 12.0002L4.58641 12.0008ZM19.4159 11.9995L12.0004 11.9995L19.4159 11.9995ZM12.0004 11.9995L12.0005 4.58545L12.0004 11.9995Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-    </svg>`;
-    generateTheNewSubtask(addedSubtaskNameInput);
-    let addedSubtask = {
-        "nameSub": addedSubtaskNameInput,
-        "status": "unchecked"
-    };
-    addedSubtasks.push(addedSubtask);
-    window.subtasks = addedSubtasks;
-}
-
-/**
- * Generates a new subtask element with the provided name and adds it to the subtask container.
- * @param {string} addedSubtaskNameInput - The name of the new subtask.
- * @returns {void}
- */
-function generateTheNewSubtask(addedSubtaskNameInput) {
-    let subtaskMain = document.getElementById('subtask_main');
-    subtaskMain.innerHTML += `<div class="boxes">
-    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-        viewBox="0 0 18 17" fill="none">
-        <rect x="1" y="0.5" width="16" height="16" rx="3"
-            fill="url(#paint0_linear_71853_3184)" stroke="black" />
-        <defs>
-            <linearGradient id="paint0_linear_71853_3184" x1="9" y1="0.5" x2="9"
-                y2="16.5" gradientUnits="userSpaceOnUse">
-                <stop stop-color="#F9F9F9" />
-                <stop offset="1" stop-color="#F0F0F0" />
-            </linearGradient>
-        </defs>
-    </svg>${addedSubtaskNameInput}
-</div>`;
-}
 
 /**
  * Displays the task creation success container by removing the 'd-none' class and adding animation class.

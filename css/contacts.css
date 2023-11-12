@@ -41,7 +41,7 @@ body {
 }
 
 .frame-97::-webkit-scrollbar-thumb {
-    background: url('/assets/img/contacts/scrollbar_thumb.svg');
+    background: url(../assets/img/contacts/scrollbar_thumb.svg);
     background-repeat: no-repeat;
     background-position-x: center;
 }
@@ -51,7 +51,7 @@ body {
 
 .frame-97::-webkit-scrollbar-button:vertical:decrement {
 
-    background: url('/assets/img/contacts/scrollbar_button_decrement.svg') no-repeat;
+    background: url(../assets/img/contacts/scrollbar_button_decrement.svg) no-repeat;
     background-position: center;
     height: 20px;
     margin: top 20px;
@@ -60,7 +60,7 @@ body {
 
 .frame-97::-webkit-scrollbar-button:vertical:increment {
 
-    background: url('/assets/img/contacts/scrollbar_button_increment.svg') no-repeat;
+    background: url(../assets/img/contacts/scrollbar_button_increment.svg) no-repeat;
     background-position: center;
     height: 20px;
     margin: top 20px;
@@ -405,15 +405,13 @@ body {
     width: 100%;
     box-sizing: border-box;
     color: #000;
-
-    /* Version 2/t2 */
     font-family: Inter;
     font-size: 47px;
     font-style: normal;
     font-weight: 500;
     line-height: 120%;
-    /* 56.4px */
     margin: 0;
+    word-break: break-word;
 }
 
 .frame-104 {
@@ -786,7 +784,7 @@ body {
 }
 
 
-@media only screen and (min-width: 993px) and (max-width: 1300px) {
+@media only screen and (min-width: 1001px) and (max-width: 1370px) {
 
     .frame-40 {
         margin-right: 50px;
@@ -849,7 +847,7 @@ body {
 
 
 
-@media only screen and (max-width: 992px) {
+@media only screen and (max-width: 1000px) {
 
     .frame-64 {
         font-size: 36px;
@@ -1057,7 +1055,10 @@ body {
         color: #FFF;
         font-family: Inter;
     }
+}
 
-
-
+@media (max-width: 992px) and (max-height: 750px) {
+    .overlay-new-contact {
+        height: 88vh;
+    }
 }

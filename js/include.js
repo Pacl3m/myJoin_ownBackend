@@ -26,10 +26,11 @@ async function includeTemplates(a) {
  * Adding class to active menu item.
  */
 function addClassActiveMenuItem() {
-    let linkElement = [];
-    linkElement = document.getElementById('menu').getElementsByTagName('a');
-    for (i = 0; i < linkElement.length; i++) {
-        if (document.location.pathname === linkElement[i].getAttribute('href')) {
+    let linkElement = document.getElementById('menu').getElementsByTagName('a');
+    for (let i = 0; i < linkElement.length; i++) {
+        let cleanedHref = linkElement[i].getAttribute('href').replace(/^\./, ''); // remove the point from the link
+        let path = document.location.pathname.replace(/.*\//, '/');
+        if (path === cleanedHref) {
             linkElement[i].classList.add("active");
         }
     }

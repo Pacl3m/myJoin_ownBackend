@@ -298,7 +298,7 @@ function renderForgotPW() {
     contentbox.innerHTML = returnForgotPWHTML();
     document.getElementById('headerRight').classList.add('d-none');
     document.getElementById('footer').classList.add('d-none');
-    document.getElementById('banner').innerHTML = '<img style="width: 32px" src="../assets/img/logInSignUp/sendCheck.svg">An E-Mail has been sent to you';
+    document.getElementById('banner').innerHTML = '<img style="width: 32px" src="assets/img/logInSignUp/sendCheck.svg">An E-Mail has been sent to you';
 }
 
 /**

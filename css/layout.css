@@ -182,7 +182,7 @@ a.help {
     align-items: center;
     gap: 5px;
     width: calc(232px - 80px);
-    padding: 3px 30px 1px 50px;
+    padding: 8px 30px 6px 50px;
 }
 
 .menu a.active {

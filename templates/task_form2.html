@@ -1,6 +1,6 @@
 <div class="content">
     <div class="mainAddTask" id="add_task_main">
-        <div class="overlay-transparent" style="display:none;" id="transparentoverlay" onclick="closeTranspOverlay()"></div>
+        <div class="overlay-transparent dropdownclosed" style="display:none;" id="transparentoverlay" onclick="closeTranspOverlay()"></div>
         <div class="title">
             <h1>Add Task</h1>
         </div>
@@ -56,7 +56,7 @@
                     <div class="subtask" id="subtask_main">
                         <h5>Subtasks</h5>
                         <div id="addNewSubtask" class="subtask-input">
-                            <p>Add new subtask</p>
+                            <p style="width: 100%; cursor: text;" onclick="openSubtaskInput()">Add new subtask</p>
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                 fill="none" onclick="openSubtaskInput()">
                                 <path
@@ -70,7 +70,7 @@
                 </div>
             </div>
             <div class="clearCreateButtons">
-                <div class="clearBtn" onclick="closeOverlay()">
+                <div class="clearBtn" onclick="clearAddTaskInput()">
                     <div>Clear</div><img src="./assets/img/board/clear-black.svg" class="default"><img
                         src="./assets/img/board/clear-blue.svg" class="hover" alt="">
                 </div>

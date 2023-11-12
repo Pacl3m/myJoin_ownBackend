@@ -146,7 +146,7 @@ input {
 
 .prio {
     display: flex;
-    height: 113px;
+    /* height: 113px; */
     flex-direction: column;
     align-items: flex-start;
     justify-content: center;
@@ -215,10 +215,60 @@ input {
 }
 
 .boxes {
+    padding-left: 16px;
+    padding-right: 16px;
     display: flex;
     align-items: center;
-    justify-content: start;
+    justify-content: space-between;
     gap: 4px;
+    transition: 200ms;
+}
+
+.boxes:hover {
+    background-color: lightgray;
+    border-radius: 10px;
+}
+
+.boxes:hover .subtask_del {
+    visibility: visible;
+    opacity: 1;
+}
+
+.subtask_del {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    visibility: hidden;
+    opacity: 0;
+    transition: 200ms;
+}
+
+.subtask_del_edit {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* .subtask_del:hover {
+    visibility: visible;
+} */
+
+.subtask_del img {
+    cursor: pointer;
+    transition: 200ms;
+}
+
+.subtask_del_edit img {
+    cursor: pointer;
+    transition: 200ms;
+}
+
+.subtask_del img:hover {
+    transform: scale(1.15);
+}
+
+.subtask_del_edit img:hover {
+    transform: scale(1.15);
 }
 
 .clearCreateButtons {
@@ -555,7 +605,11 @@ div#transparentoverlay {
 
 div#assigned_to {
     position: relative;
-    z-index: 777;
+    /* z-index: 777; */
+}
+
+#category {
+    position: relative;
 }
 
 .contacts_list_add_task {
@@ -611,6 +665,10 @@ input[type="checkbox"]:checked {
     color: red;
 }
 
+#editCardPrio2 {
+    width: 100%;
+}
+
 @keyframes slideFrame73 {
     0% {
         transform: translateY(1000px);
@@ -627,7 +685,7 @@ input[type="checkbox"]:checked {
 @media(max-width: 1240px) {
     .mainAddTask {
         width: 100%;
-        max-width: 800px;
+        /* max-width: 800px; */
     }
 }
 
@@ -701,6 +759,10 @@ input[type="checkbox"]:checked {
         font-size: 17px;
     }
 
+    .clearCreateButtons {
+        margin-top: 50px;
+    }
+
     .addTaskPrios {
         justify-content: space-between;
         width: 100%;
@@ -712,13 +774,40 @@ input[type="checkbox"]:checked {
     button.SubTaskPrios {
         width: 100%;
     }
-
 }
 
+@media only screen and (max-width: 360px) {
+    .addTaskPrios {
+        flex-direction: column;
+    }
+
+    div#editCardPrio {
+        justify-content: center;
+    }
+
+    /* #editCardPrio2 {
+        width: 100%;
+    } */
+}
 
 
 @media(max-height: 1100px) {
     .clearCreateButtons {
         margin-top: 20px;
+    }
+}
+
+@media only screen and (max-width: 400px) {
+    .clearBtn {
+        width: 100px;
+    }
+
+    .createBtn {
+        width: 140px;
+        padding: 14px 0px;
+    }
+
+    .clearCreateButtons {
+        gap: 8px;
     }
 }

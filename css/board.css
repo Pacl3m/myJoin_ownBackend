@@ -876,13 +876,13 @@ div#editCardSubtasks button.add-category-btn {
 
 
 div#selectbox input {
-    background: url(./assets/img/board/arrow_drop_down.svg);
+    background: url(/assets/img/board/arrow_drop_down.svg);
     background-repeat: no-repeat;
     background-position: right;
 }
 
 .selectbox.active input {
-    background: url(./assets/img/board/arrow_drop_down_close.svg) !important;
+    background: url(/assets/img/board/arrow_drop_down_close.svg) !important;
     background-repeat: no-repeat !important;
     background-position: right !important;
 }
@@ -1068,6 +1068,7 @@ div#addContact2 {
         gap: 8px;
         /* width: 600px; */
         padding-right: 32px;
+        padding-left: 32px;
     }
 
     .headBoardRight {
@@ -1251,6 +1252,8 @@ div#addContact2 {
         align-items: center;
         margin: 0;
         padding-top: 16px !important;
+        padding-left: 0px;
+        padding-right: 0px;
     }
 
     .cardBoardAllDone {
@@ -1308,6 +1311,19 @@ div#addContact2 {
 
     .categoryBoardSub {
         margin-top: 16px !important;
+    }
+
+    .cardBoardAll {
+        min-height: unset;
+        flex-direction: row;
+        display: flex;
+        overflow-x: scroll;
+        width: auto;
+        gap: 16px;
+    }
+
+    .categoryBoardHead {
+        align-items: unset;
     }
 }
 

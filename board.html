@@ -9,8 +9,11 @@
     <script src="js/storage.js"></script>
     <script src="js/include.js"></script>
     <script src="js/contacts.js"></script>
+    <script src="js/contacts2.js"></script>
     <script src="js/board.js"></script>
+    <script src="js/board2.js"></script>
     <script src="js/add_task.js"></script>
+    <script src="js/add_subtask.js"></script>
     <script src="js/summary_script.js"></script>
     <script src="js/main_login.js"></script>
     <link rel="stylesheet" href="css/layout.css">
@@ -107,7 +110,7 @@
             </div>
 
             <div id="CardEditForm" class="carddetail" style="display:none;" onclick="doNotClose(event)"><img src="assets/img/board/close.svg" alt="Close Icon" onclick="closeOverlay()" class="close-card">
-                <div class="overlay-transparent" style="display:none;" id="overlaytransparent" onclick="closeTransparentOverlay()"></div>
+                <div class="overlay-transparent dropdownclosed" style="display:none;" id="overlaytransparent" onclick="closeTransparentOverlay()"></div>
                 <div class="carddetailinside">
                 <div class="cardBoardInsideCatEdit" id="cardDetailCatEdit"><span class="editlabel">Title</span><input type="text" id="editCardTitle"></div>
                 <div class="cardBoardInsideCatEdit" id="cardDetailCatEdit"><span class="editlabel">Description</span><textarea type="text" id="editCardDescription"></textarea></div>
