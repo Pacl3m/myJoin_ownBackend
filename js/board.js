@@ -60,9 +60,10 @@ async function renderBoardCards() {
     clearBoardCards();
     for (let i = 0; i < cards.length; i++) {
         if (cards[i]['listType'] == 'ToDo') {
+            let id = cards[i].id;
             listTypes[0]['amount']++;
             document.getElementById('cardBoardToDo').innerHTML +=
-                renderBoardTemplate(i);
+                renderBoardTemplate(i, id);
             renderBoardFunctionsTemplate(i);
         } else {
             renderBoardCardsInProgress(i)
@@ -77,9 +78,10 @@ async function renderBoardCards() {
  */
 function renderBoardCardsInProgress(i) {
     if (cards[i]['listType'] == 'InProgress') {
+        let id = cards[i].id;
         listTypes[1]['amount']++;
         document.getElementById('cardBoardInProgress').innerHTML +=
-            renderBoardTemplate(i);
+            renderBoardTemplate(i, id);
         renderBoardFunctionsTemplate(i);
     } else { renderBoardCardsAwaitingFeedback(i) };
 }
@@ -91,9 +93,10 @@ function renderBoardCardsInProgress(i) {
  */
 function renderBoardCardsAwaitingFeedback(i) {
     if (cards[i]['listType'] == 'Awaitingfeedback') {
+        let id = cards[i].id;
         listTypes[2]['amount']++;
         document.getElementById('cardBoardAwaitingfeedback').innerHTML +=
-            renderBoardTemplate(i);
+            renderBoardTemplate(i, id);
         renderBoardFunctionsTemplate(i);
     } else { renderBoardCardsDone(i) };
 }
@@ -105,9 +108,10 @@ function renderBoardCardsAwaitingFeedback(i) {
  */
 function renderBoardCardsDone(i) {
     if (cards[i]['listType'] == 'Done') {
+        let id = cards[i].id;
         listTypes[3]['amount']++;
         document.getElementById('cardBoardDone').innerHTML +=
-            renderBoardTemplate(i);
+            renderBoardTemplate(i, id);
     } else { }
     renderBoardFunctionsTemplate(i);
 }
@@ -118,12 +122,12 @@ function renderBoardCardsDone(i) {
  * @param {number} i 
  * @returns html content
  */
-function renderBoardTemplate(i) {
-    return /* html */`<div class="cardBoard" draggable="true" id="card${i}" ondragstart="startDragging(${i})" onclick='openCard(${i})'>
+function renderBoardTemplate(i, id) {
+    return /* html */`<div class="cardBoard" draggable="true" id="card${id}" ondragstart="startDragging(${id})" onclick='openCard(${i}, ${id})'>
     <div class="cardBoardInside">
         <div class="cardHeadMain">
         <div class="cardBoardInsideCategory"; id="cardBoardInsideCategory${i}">${cards[i]['category']}</div>
-        <div class="svgImage"><div class="svgMinus90Degree" id="svgToLeft${i}" onclick="listTypeToLeft(${i})">${svgArrowLeft}</div><div class="svgPlus90Degree" id="svgToRight${i}" onclick="listTypeToRight(${i})">${svgArrowRight}</div></div>
+        <div class="svgImage"><div class="svgMinus90Degree" id="svgToLeft${i}" onclick="listTypeToLeft(${i}, ${id}, event)">${svgArrowLeft}</div><div class="svgPlus90Degree" id="svgToRight${i}" onclick="listTypeToRight(${i}, ${id}, event)">${svgArrowRight}</div></div>
         </div>
         <div class="cardBoardInsideTitleAndDescrption">
             <div class="cardBoardInsideTitle">${cards[i]['title']}</div>
@@ -174,7 +178,7 @@ function renderBackgroundColorCategory(i) {
 function renderProgressBar(i) {
     let progressValue = cards[i]['progress'] * 100 / cards[i]['subtasks'].length;
     let progressBar = document.getElementById(`progressBar${i}`);
-    if (cards[i]['subtasks'].length == 0) {
+    if (cards[i]['subtasks'].length === 0) {
         document.getElementById(`cardBoardInsideProgress${i}`).classList.add("d-none");
     } else {
         progressBar.style.width = progressValue + '%';
@@ -351,7 +355,7 @@ function filterCards() {
  * @param {number} i - index of the Cards array
  * @param {*} event - help function to prevent from call unwanted function
  */
-function openCard(i, event) {
+function openCard(i, id, event) {
     document.getElementById('overlay').classList.remove('d-none');
     document.getElementById('CardDetail').style = "display:block;";
     let cardDetailDelete = document.getElementById('deleteCard');
@@ -362,20 +366,20 @@ function openCard(i, event) {
     cardDetailDueDate.innerHTML = `<span class="detlabel">Due date:</span>${cards[i]['dueDate']}`;
     cardDetailPrio.innerHTML = `<span class="detlabel">Priority:</span><div id="priobtndetail">${cards[i]['prio']}<img id="prioImg" src=""></div>`;
     cardDetailAssignedUser.innerHTML = `<div class="cardBoardInsideUserAndPrio FullNameSplit"><div class="InsideUser" id="InsideUserDetail${i}"></div><div id=InsideUserFullName${i}></div></div><div class="cardDetailSubtasksAll"><div class="detlabel" id="SubtaskHeader${i}">Subtasks:</div><div class="cardDetailSubTasks" id="cardDetailSubTasks${i}"></div></div>`;
-    cardDetailDelete.innerHTML = `<div onclick='deleteCard(${[i]})'><img src="assets/img/board/delete.svg" class="default"><img src="assets/img/board/delete-blue.svg" class="hover">`;
-    cardDetailEdit.innerHTML = `<div onclick='editCard(${[i]})'><img src="assets/img/board/edit.svg">`;
-    renderCategoriesAndUser(i);
+    cardDetailDelete.innerHTML = `<div onclick='deleteCard(${id})'><img src="assets/img/board/delete.svg" class="default"><img src="assets/img/board/delete-blue.svg" class="hover">`;
+    cardDetailEdit.innerHTML = `<div onclick='editCard(${[i]}, ${id})'><img src="assets/img/board/edit.svg">`;
+    renderCategoriesAndUser(i, id);
 }
 
 
 /**
  * Render Categorie and user details
  */
-function renderCategoriesAndUser(i) {
+function renderCategoriesAndUser(i, id) {
     renderBackgroundColorCategoryDetail(i);
     renderAssignedUserInBoardDetail(i);
     renderAssignedUserFullName(i);
-    renderSubtasksInBoardDetail(i);
+    renderSubtasksInBoardDetail(i, id);
     prioButtonStyle(i);
 }
 
@@ -436,16 +440,14 @@ function renderListTypeArrows(i) {
  * change list type of card to previous type in board
  * @param {number} i - index of the Cards array
  */
-async function listTypeToLeft(i) {
+async function listTypeToLeft(i, id, event) {
+    event.stopPropagation();
     for (let j = 0; j < listTypes.length; j++) {
         if (cards[i].listType === listTypes[j].name) {
-            const nextListTypeIndex = (j - 1) % listTypes.length;
-            cards[i].listType = listTypes[nextListTypeIndex].name;
-            break;
+            let updatedCard = { "listType": listTypes[j - 1].name }
+            await saveCardToStorage(id, 'save', updatedCard)
         }
     }
-    event.stopPropagation();
-    await saveCardsToStorage();
     renderBoard();
 }
 
@@ -453,15 +455,13 @@ async function listTypeToLeft(i) {
  * change list type of card to next type in board
  * @param {number} i - index of the Cards array 
  */
-async function listTypeToRight(i) {
+async function listTypeToRight(i, id, event) {
+    event.stopPropagation();
     for (let j = 0; j < listTypes.length; j++) {
         if (cards[i].listType === listTypes[j].name) {
-            const nextListTypeIndex = (j + 1) % listTypes.length;
-            cards[i].listType = listTypes[nextListTypeIndex].name;
-            break;
+            let updatedCard = { "listType": listTypes[j + 1].name }
+            await saveCardToStorage(id, 'save', updatedCard)
         }
     }
-    event.stopPropagation();
-    await saveCardsToStorage();
     renderBoard();
 }

@@ -1,103 +1,181 @@
-const STORAGE_TOKEN = 'NXG6821GC3N8UKZYZ3LB1K13W6AEIKIER4AO8G0M';
-const STORAGE_URL = 'https://remote-storage.developerakademie.org/item';
-
-
-/**
- * Saves the contacts array to the storage using a POST request.
- * @async
- * @function
- * @returns {Promise<Object>} A Promise that resolves to the response from the storage.
- */
+const DATABASE_URL = 'https://myjoin-2a48d-default-rtdb.europe-west1.firebasedatabase.app/';
+const TEST_URL = 'http://127.0.0.1:8000/api/'
+// Speichern von Kontakten
 async function saveContactsToStorage() {
-    let key = 'contacts';
-    let value = Contacts;
-    let payload = { key, value, token: STORAGE_TOKEN };
-    return fetch(STORAGE_URL, {method: 'POST', body: JSON.stringify(payload)}).then(res => res.json());
+    const key = 'contacts/';
+    const value = Contacts[0];
+    const url = `${TEST_URL}${key}`;
+    try {
+        await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(value)
+        });
+    } catch (error) {
+        console.error("Error saving contacts:", error);
+    }
 }
 
 
-/**
- * Loads contacts from the storage
- */
+// Speichern von edit Kontakten oder löschen von Kontakten
+async function saveContactToStorage(pk, method, updatedContact) {
+    const key = 'contacts/';
+    const url = `${TEST_URL}${key}${pk}`;
+    try {
+        if (method === 'save') {
+            await fetch(url, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(updatedContact)
+            });
+        }
+        if (method === 'delete') {
+            await fetch(url, {
+                method: 'DELETE',
+            });
+        }
+    }
+    catch (error) {
+        console.error('Fehler bei der API-Anfrage:', error);
+    }
+}
+
+// Abrufen von Kontakten
 async function getContactsFromStorage() {
-    let key = 'contacts';
-    let url = `${STORAGE_URL}?key=${key}&token=${STORAGE_TOKEN}`;
+    const key = 'contacts/';
+    const url = `${TEST_URL}${key}`;
     try {
         const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error("Error fetching contacts");
+        }
         const data = await response.json();
-
-        if (data.data) {
-            Contacts = JSON.parse(data.data.value);
+        if (data) {
+            Contacts = Object.values(data).flat();
         } else {
-            throw new Error(`Could not find data with key "${key}".`);
+            Contacts = [];
         }
     } catch (error) {
-        throw new Error(`Error fetching data: ${error}`);
+        console.error("Error fetching contacts:", error);
     }
 }
 
-
-/**
- * Save and load cards in remoteStorage
- * @returns {Promise<Object>} A Promise that resolves to the response from the storage.
- */
-async function saveCardsToStorage() { 
-    let key = 'cards';
-    let value = cards;
-    let payload = { key, value, token: STORAGE_TOKEN };
-    return fetch(STORAGE_URL, {method: 'POST', body: JSON.stringify(payload)}).then(res => res.json());
-}
-
-
-/**
- * Loads cards from the storage
- */
-async function getCardsFromStorage() { 
-    let key = 'cards';
-    let url = `${STORAGE_URL}?key=${key}&token=${STORAGE_TOKEN}`;
+// Speichern von Cards
+async function saveCardsToStorage() {
+    const key = 'cards/';
+    const value = cards[0]
+    const url = `${TEST_URL}${key}`;
     try {
-        const response = await fetch(url);
-        const data = await response.json();
-
-        if (data.data) {
-            cards = JSON.parse(data.data.value);
-        } else {
-            throw new Error(`Could not find data with key "${key}".`);
-        }
+        await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(value)
+        });
     } catch (error) {
-        throw new Error(`Error fetching data: ${error}`);
+        console.error("Error saving cards:", error);
     }
 }
 
+// Speichern von Cards
+async function saveCardToStorage(id, method, updatedCard) {
+    const key = 'cards/';
+    const url = `${TEST_URL}${key}${id}`;
+    try {
+        if (method === 'save') {
+            await fetch(url, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(updatedCard)
+            });
+        }
+        if (method === 'delete') {
+            await fetch(url, {
+                method: 'DELETE'
+            });
+        }
+    } catch (error) {
+        console.error("Error saving cards:", error);
+    }
+}
 
-/**
- * Saves categories in the storage
- * @returns {Promise<Object>} A Promise that resolves to the response from the storage. 
- */
+// Abrufen von Cards
+async function getCardsFromStorage() {
+    const key = 'cards/';
+    const url = `${TEST_URL}${key}`;
+
+    try {
+        const response = await fetch(url);
+
+        if (!response.ok) {
+            throw new Error("Error fetching cards");
+        }
+
+        const data = await response.json();
+        if (data) {
+            cards = Object.values(data).flat();
+        } else {
+            cards = [];
+        }
+    } catch (error) {
+        console.error("Error fetching cards:", error);
+    }
+}
+
+// Speichern von Categories
 async function saveCategoriesToStorage() {
-    let key = 'categories';
-    let value = categories;
-    let payload = { key, value, token: STORAGE_TOKEN };
-    return fetch(STORAGE_URL, {method: 'POST', body: JSON.stringify(payload)}).then(res => res.json());
-}
+    const key = 'categories/';
+    const value = categories;
+    // const url = `${DATABASE_URL}${key}.json`;
+    const url = `${TEST_URL}${key}`;
 
-
-/**
- * Loads categories from the storage
- */
-async function getCategoriesFromStorage() {
-    let key = 'categories';
-    let url = `${STORAGE_URL}?key=${key}&token=${STORAGE_TOKEN}`;
     try {
-        const response = await fetch(url);
-        const data = await response.json();
+        await fetch(url, {
+            method: 'DELETE'
+        });
+        for (let category of categories) {
+            await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(category)
+            });
 
-        if (data.data) {
-            categories = JSON.parse(data.data.value);
-        } else {
-            throw new Error(`Could not find data with key "${key}".`);
         }
     } catch (error) {
-        throw new Error(`Error fetching data: ${error}`);
+        console.error("Error saving categories:", error);
+    }
+}
+
+// Abrufen von Categories
+async function getCategoriesFromStorage() {
+    const key = 'categories/';
+    // const url = `${DATABASE_URL}${key}.json`;
+    const url = `${TEST_URL}${key}`;
+    try {
+        const response = await fetch(url);
+
+        if (!response.ok) {
+            throw new Error("Error fetching categories");
+        }
+
+        const data = await response.json();
+        if (data) {
+            categories = Object.values(data).flat();
+            // console.log("Categories loaded:", categories);
+        } else {
+            // console.log("No categories found!");
+            categories = [];
+        }
+    } catch (error) {
+        console.error("Error fetching categories:", error);
     }
 }

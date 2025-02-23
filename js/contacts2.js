@@ -4,18 +4,19 @@
  * @returns {void}
  * @throws {Error} When trying to delete the current user.
  */
-async function deleteContact(x) {
+async function deleteContact(x, id) {
     if (x === currentUser) {
         alert('Du kannst dich nicht selber löschen')
     } else {
-        await deleteContactInCards(x);
+        // await deleteContactInCards(x);
         Contacts.splice(x, 1);
+        await saveContactToStorage(id, 'delete')
         if (currentUser > x && currentUser !== 1000) {
             currentUser--
             localStorage.setItem('currentUser', currentUser);
         };
         document.getElementById('floating_contact').innerHTML = '';
-        saveContactsToStorage();
+        // await saveContactsToStorage();
         renderContactsList();
     }
 }
@@ -153,13 +154,15 @@ async function createNewContact() {
                 "name": nameInput,
                 "password": '1234',
             };
+            Contacts = [];
             Contacts.push(newContact);
             sortContactsAlphabetically(Contacts);
             await saveContactsToStorage();
+            await getContactsFromStorage();
             const theNewId = findContactIdByEmail(Contacts, emailInput);
-            const target = document.getElementById(`contact_${theNewId}`);
             closeNewContact();
             await renderContactsList();
+            const target = document.getElementById(`contact_${theNewId}`);
             setTimeout(() => {
                 scrollToNewContact('contacts_list', `contact_${theNewId}`);
                 setTimeout(() => {
@@ -220,7 +223,7 @@ function sortContactsAlphabetically(contacts) {
 function findContactIdByEmail(contacts, emailToBeFound) {
     for (let i = 0; i < contacts.length; i++) {
         if (contacts[i].email === emailToBeFound) {
-            return i;
+            return contacts[i].id;
         }
     }
     return -1;
@@ -247,7 +250,7 @@ function scrollToNewContact(parentId, childId) {
  * This function generates the HTML code that is used to display the edit contact overlay container
  * @param {number} x 
  */
-function renderEditContact(x) {
+function renderEditContact(x, id) {
     let element = Contacts[x];
     let firstTwoLetters = element['firstName'].charAt(0) + element['lastName'].charAt(0);
     let overlayNewContact = document.getElementById('overlay_new_contact');
@@ -271,7 +274,7 @@ function renderEditContact(x) {
                                         </div>
                                         
                                         <div class="frame-215">
-                                        <form  onsubmit="editContact(${x}); return false;">
+                                        <form  onsubmit="editContact(${x}, ${id}); return false;">
                                             <div class="add-contact-text-main">
                                                 <div class="frame-14"> 
                                                     <div class="frame-157">
@@ -293,7 +296,7 @@ function renderEditContact(x) {
                                                 </div>
                                             </div>
                                             <div class="add-contact-buttons-main">                                                
-                                                    <div class="add-contact-cancel" onclick="deleteContactFromEdit(${x})">
+                                                    <div class="add-contact-cancel" onclick="deleteContactFromEdit(${x}, ${id}))">
                                                         <span>Delete</span> 
                                                     </div>
                                                     <button type="submit" class="add-contact-create"> 
@@ -320,10 +323,11 @@ function renderEditContact(x) {
  * @param {number} x - The index of the contact to be deleted.
  * @returns {Promise<void>}
  */
-async function deleteContactFromEdit(x) {
-    deleteContact(x);
+async function deleteContactFromEdit(x, id) {
+    // deleteContact(x);
     closeNewContact();
-    await saveContactsToStorage();
+    // await saveContactsToStorage();
+    await saveContactToStorage(id, 'delete');
     renderContactsList();
 }
 
@@ -332,23 +336,31 @@ async function deleteContactFromEdit(x) {
  * @param {number} x - The index of the contact to be edited.
  * @returns {void}
  */
-function editContact(x) {
+async function editContact(x, id) {
     let nameInput = document.getElementById('edit_name').value;
     let nameArray = nameInput.split(' ');
     let newFirstName = nameArray[0];
     let newLastName = nameArray[1];
     let newEmail = document.getElementById('edit_email').value;
     let newPhone = document.getElementById('edit_phone').value;
-    let element = Contacts[x];
+    // let element = Contacts[x];
 
-    element.firstName = newFirstName;
-    element.lastName = newLastName;
-    element.email = newEmail;
-    element.phone = newPhone;
-    element.name = nameInput;
-    saveContactsToStorage();
+    // element.firstName = newFirstName;
+    // element.lastName = newLastName;
+    // element.email = newEmail;
+    // element.phone = newPhone;
+    // element.name = nameInput;
+
+    const updatedContact = {
+        "firstName": newFirstName,
+        "lastName": newLastName,
+        "email": newEmail,
+        "phone": newPhone,
+        "name": nameInput
+    };
+    await saveContactToStorage(id, 'save', updatedContact)
     closeNewContact();
     renderContactsList();
     document.getElementById('floating_contact').innerHTML = "";
-    showContactDetails(x);
+    showContactDetails(id, x);
 }

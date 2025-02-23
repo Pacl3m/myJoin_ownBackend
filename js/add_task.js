@@ -76,6 +76,8 @@ function setPriority() {
     if (priority == '2') { window.prio = "Low" };
 }
 
+let addedSubtasks = [];
+
 /** 
  * This function gets all the values from the input fields and generates an object that is later going to be added to the array "Cards".
  */
@@ -116,11 +118,14 @@ async function addTaskToBoard(currentListType) {
     if (isFormValidated) {
         addTheUsers();
         setPriority();
-        if (addedSubtasks.length == '0') { subtasks = [] };
-        generateNewTaskObject(currentListType);
-        await getCardsFromStorage();
-        cards.push(theNewTask);
-        saveCardsToStorage();
+        if (addedSubtasks.length === 0) {
+            subtasks = [];
+        };
+        cards = []
+        await generateNewTaskObject(currentListType);
+        // await getCardsFromStorage();
+        await cards.push(theNewTask);
+        await saveCardsToStorage();
         showTaskCreationSuccess();
         navigateToBoard();
     }
@@ -171,6 +176,7 @@ function checkForInput() {
  * This function generates the drop down menu with the avaliable categories.
  */
 function openCategoryDropDown() {
+    let transparentoverlay = document.getElementById('transparentoverlay');
     if (transparentoverlay.classList.contains("dropdownclosed")) {
         openTranspOverlay();
         let categoryMainContainer = document.getElementById('category');
@@ -226,6 +232,7 @@ function closeCategoryInput() {
  * @returns {void}
  */
 function selectedCategory(x) {
+    let transparentoverlay = document.getElementById('transparentoverlay');
     let element = categories[x];
     document.getElementById('category').innerHTML = `
     <h5>Category</h5>
@@ -301,6 +308,7 @@ async function addCategory() {
  * @returns {void}
  */
 function openDropdownContact() {
+    const category = document.getElementById('category');
     if (!category.classList.contains('openCategory')) {
         openTranspOverlay();
         removeClassTranspOverlay();

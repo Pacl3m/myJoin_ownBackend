@@ -139,7 +139,7 @@ function getFirstLetters() {
  * @param {*} i This parameter is the index that corresponds to the sequence number in a for loop that runs in the function that is calling this function.
  *              It is used to generate certain elements from the same index in the array Contacts.
  */
-function renderContactWithLetterSeparator(element, firstLetter, firstTwoLetters, contactsList, i) {
+function renderContactWithLetterSeparator(element, firstLetter, firstTwoLetters, contactsList, i, id) {
     contactsList.innerHTML +=
         `   <div class="frame-112" id="letter_${firstLetter}">
                         <p>${firstLetter}</p>
@@ -153,7 +153,7 @@ function renderContactWithLetterSeparator(element, firstLetter, firstTwoLetters,
                     <div class="frame_112"> 
                  
                     </div>
-                    <div class="contact_name" id="contact_${[i]}" onclick="showContactDetails(${[i]})"> 
+                    <div class="contact_name" id="contact_${[id]}" onclick="showContactDetails(${[id]}, ${[i]})"> 
                         <div class="frame_79">
                             <svg xmlns="http://www.w3.org/2000/svg" width="42" height="42" viewBox="0 0 42 42" fill="none">
                             <circle cx="21" cy="21" r="20.5" fill="${nameTagsColors[i]}" stroke="white"/>
@@ -161,7 +161,7 @@ function renderContactWithLetterSeparator(element, firstLetter, firstTwoLetters,
                             <p>${firstTwoLetters}</p>
                         </div>
                         <div type="button" class="frame_81">
-                            <span id="contact_name_${[i]}">
+                            <span id="contact_name_${[id]}">
                                 ${element['firstName']} ${element['lastName']}
                             </span>
                             <a>${element['email']}</a>   
@@ -184,12 +184,12 @@ function renderContactWithLetterSeparator(element, firstLetter, firstTwoLetters,
  * @param {*} i This parameter is the index that corresponds to the sequence number in a for loop that runs in the function that is calling this function.
  *              It is used to generate certain elements from the same index in the array Contacts.
  */
-function renderContactWithoutLetterSeparator(element, firstTwoLetters, contactsList, i) {
+function renderContactWithoutLetterSeparator(element, firstTwoLetters, contactsList, i, id) {
     contactsList.innerHTML += `
             <div class="frame_112"> 
                  
             </div>
-            <div class="contact_name" id="contact_${[i]}" onclick="showContactDetails(${[i]})"> 
+            <div class="contact_name" id="contact_${[id]}" onclick="showContactDetails(${[id]}, ${[i]})"> 
                 <div class="frame_79">
                 <svg xmlns="http://www.w3.org/2000/svg" width="42" height="42" viewBox="0 0 42 42" fill="none">
                 <circle cx="21" cy="21" r="20.5" fill="${nameTagsColors[i]}" stroke="white"/>
@@ -197,7 +197,7 @@ function renderContactWithoutLetterSeparator(element, firstTwoLetters, contactsL
                 <p>${firstTwoLetters}</p>
             </div>
             <div class="frame_81">
-                <span id="contact_name_${[i]}">
+                <span id="contact_name_${[id]}">
                     ${element['firstName']} ${element['lastName']}
                 </span>
                 
@@ -216,14 +216,15 @@ async function renderContactsList() {
     contactsList.innerHTML = "";
     contactsList.innerHTML += addNewContactButton;
     for (let i = 0; i < Contacts.length; i++) {
+        let id = Contacts[i].id;
         let element = Contacts[i];
         let firstLetter = element['firstName'].charAt(0);
         let firstTwoLetters = element['firstName'].charAt(0) + element['lastName'].charAt(0);
         let letterTab = document.getElementById(`letter_${firstLetter}`);
         if (!letterTab) {
-            renderContactWithLetterSeparator(element, firstLetter, firstTwoLetters, contactsList, i);
+            renderContactWithLetterSeparator(element, firstLetter, firstTwoLetters, contactsList, i, id);
         } else {
-            renderContactWithoutLetterSeparator(element, firstTwoLetters, contactsList, i);
+            renderContactWithoutLetterSeparator(element, firstTwoLetters, contactsList, i, id);
         }
     }
 }
@@ -242,17 +243,18 @@ function animateContactCard() {
  * This function is used for the display of the detailed contact card.
  * @param {number} x This parameter is the corresponding index number of the object in the array Contacts
  */
-async function showContactDetails(x) {
-    await markActiveContact(x);
-    let contact = document.getElementById(`contact_${[x]}`);
-    let contactNameContainer = document.getElementById(`contact_name_${[x]}`);
+async function showContactDetails(id, x) {
+    await markActiveContact(id);
+    let contact = document.getElementById(`contact_${[id]}`);
+    let contactNameContainer = document.getElementById(`contact_name_${[id]}`);
     let contactCardContainer = document.getElementById('floating_contact');
-    let element = Contacts[x];
+    let element = Contacts.find(contact => contact.id === id); // for schleife
+    // let element = Contacts[x];
     let firstTwoLetters = element['firstName'].charAt(0) + element['lastName'].charAt(0);
     contact.classList.add('background-color-2A3647', 'pointer-events-none');
     contactNameContainer.classList.add('color-FFFFFF');
     animateContactCard();
-    renderContactDetails(x, element, contactCardContainer, firstTwoLetters);
+    renderContactDetails(x, element, contactCardContainer, firstTwoLetters, id);
     displayContact();
 }
 
@@ -267,7 +269,7 @@ async function showContactDetails(x) {
  *                                 It is used to generate the first letter of the name and surname of the person in the corresponding object in the array Contacts,
  *                                 for generating the name tag.
  */
-function renderContactDetails(x, element, contactCardContainer, firstTwoLetters) {
+function renderContactDetails(x, element, contactCardContainer, firstTwoLetters, id) {
     contactCardContainer.innerHTML = "";
 
 
@@ -283,8 +285,8 @@ function renderContactDetails(x, element, contactCardContainer, firstTwoLetters)
             <div class="frame-104">
                 <p class="frame-64">${element['firstName']} ${element['lastName']}</p>
                 <div class="frame-204"> 
-                    <div class="edit-contact" onclick="renderEditContact(${x})"> ${editSVG} Edit </div>
-                    <div class="delete-contact" onclick="deleteContact(${x})"> ${deleteSVG} Delete </div>
+                    <div class="edit-contact" onclick="renderEditContact(${x}, ${id})"> ${editSVG} Edit </div>
+                    <div class="delete-contact" onclick="deleteContact(${x}, ${id})"> ${deleteSVG} Delete </div>
                 </div>   
             </div>   
         </div>
@@ -302,8 +304,8 @@ function renderContactDetails(x, element, contactCardContainer, firstTwoLetters)
         <div class="onlymob">
         <a href="#" onclick="showContactEditMenu()" id="editcontact"><img src="assets/img/contacts/edit-contact.svg" class="default"><img src="assets/img/contacts/edit-contact-lightblue.svg" class="hover"></a>
           <div class="contact-edit" id="edit-contact" style="display:none;"> 
-           <div class="edit-contact" onclick="renderEditContact(${x})"> ${editSVG} Edit </div>
-           <div class="delete-contact" onclick="deleteContact(${x})"> ${deleteSVG} Delete </div>
+           <div class="edit-contact" onclick="renderEditContact(${x}, ${id}))"> ${editSVG} Edit </div>
+           <div class="delete-contact" onclick="deleteContact(${x}, ${id}))"> ${deleteSVG} Delete </div>
           </div>
         </div>
             `;

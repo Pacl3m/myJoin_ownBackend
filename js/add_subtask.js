@@ -1,4 +1,4 @@
-let addedSubtasks = [];
+// let addedSubtasks = [];
 
 /**
  * Opens the input field for adding a new subtask.
@@ -255,11 +255,11 @@ function selectedContact(y) {
  * render subtasks in detailed view of card
  * @param {number} i - index of the Cards array
  */
-function renderSubtasksInBoardDetail(i) {
+function renderSubtasksInBoardDetail(i, id) {
     if (cards[i]['subtasks'].length > 0) {
         for (let j = 0; j < cards[i]['subtasks'].length; j++) {
             document.getElementById(`cardDetailSubTasks${i}`).innerHTML += `
-                <div id="SubTaskHead${j}" class="subtaskAndCheckbox"><input class="SubTaskCheckbox" id="SubTaskCheckbox${i}${j}" ${cards[i]['subtasks'][j]['status']} type="checkbox" onclick="ChangeCheckboxSubtasks(${i},${j})"><div class="label-subtask">${cards[i]['subtasks'][j]['nameSub']}</div></div>
+                <div id="SubTaskHead${j}" class="subtaskAndCheckbox"><input class="SubTaskCheckbox" id="SubTaskCheckbox${i}${j}" ${cards[i]['subtasks'][j]['status']} type="checkbox" onclick="ChangeCheckboxSubtasks(${i},${j},${id})"><div class="label-subtask">${cards[i]['subtasks'][j]['nameSub']}</div></div>
                 `;
         }
     } else {
@@ -271,7 +271,7 @@ function renderSubtasksInBoardDetail(i) {
 /**
  * check and uncheck subtask checkbox of card
  */
-async function ChangeCheckboxSubtasks(i, j) {
+async function ChangeCheckboxSubtasks(i, j, id) {
     if (cards[i]['subtasks'][j]['status'] == "checked") {
         cards[i]['subtasks'][j]['status'] = "unchecked";
         cards[i]['progress']--;
@@ -281,20 +281,24 @@ async function ChangeCheckboxSubtasks(i, j) {
             cards[i]['progress']++;
         }
     }
-    await saveCardsToStorage();
+    let updatedCard = {
+        "subtasks": cards[i]['subtasks'],
+        "progress": cards[i]['progress']
+    };
+    await saveCardToStorage(id, 'save', updatedCard);
     renderBoard();
 }
 
 /**
  * Render sub task mask
  */
-function renderSubTaskMask(i) {
+function renderSubTaskMask(i, id) {
     return /* html */ `
     <div class="subtask" id="subtask_main2">
         <h5>Subtasks</h5>
         <div id="addNewSubtask2" class="subtask-input">
             <p>Add new subtask</p>
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" onclick="openSubtaskInput2(${i})">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" onclick="openSubtaskInput2(${i}, ${id})">
                 <path d="M12.0011 12.0002L12.0018 19.4149M4.58641 12.0008L12.0011 12.0002L4.58641 12.0008ZM19.4159 11.9995L12.0004 11.9995L19.4159 11.9995ZM12.0004 11.9995L12.0005 4.58545L12.0004 11.9995Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
             </svg>
         </div>
@@ -308,11 +312,11 @@ function renderSubTaskMask(i) {
  * load form to edit subtasks in detailed view of card
  * @param {number} i - index of the Cards array
  */
-function loadSubtasksEditform(i) {
+function loadSubtasksEditform(i, id) {
     let subtaskMain = document.getElementById('subtasklist');
     subtaskMain.innerHTML = '';
     for (b = 0; b < cards[i]['subtasks'].length; b++) {
-        subtaskMain.innerHTML += `<div class="boxes" id="boxes${b}">• ${cards[i]['subtasks'][b].nameSub}<div class="actionlinks"><a href="#" onclick="editLoadedSubtasks(${i},${b})" class="subTaskEdit"><img src="assets/img/board/edit-icon.svg"></a><a href="#" onclick="deleteEditedSubtasks(${i},${b})" class="subTaskDel"><img src="assets/img/board/trash-icon.svg"></a></div></div>`;
+        subtaskMain.innerHTML += `<div class="boxes" id="boxes${b}">• ${cards[i]['subtasks'][b].nameSub}<div class="actionlinks"><a href="#" onclick="editLoadedSubtasks(${i},${b},${id})" class="subTaskEdit"><img src="assets/img/board/edit-icon.svg"></a><a href="#" onclick="deleteEditedSubtasks(${i},${b},${id})" class="subTaskDel"><img src="assets/img/board/trash-icon.svg"></a></div></div>`;
     }
 }
 
@@ -321,9 +325,9 @@ function loadSubtasksEditform(i) {
  * @param {number} i - index of the Cards array
  * @param {number*} b - index of subtask in Cards JSON
  */
-function editLoadedSubtasks(i, b) {
+function editLoadedSubtasks(i, b, id) {
     let editSubtaskInput = document.getElementById(`subtasklist`);
-    editSubtaskInput.innerHTML = `<input type="text" id='inputEditTask${b}'><div class="editactionlinks" style="display:none;" id="editsubtaskbtn"><a href="#" onclick="cancelEditedSubtask(${i},${b})" class="subdellink"><img src="assets/img/board/trash-icon.svg"></a><a href="#" onclick="saveEditedSubtask(${i},${b})" class="subedilink"><img src="assets/img/board/check-icon.svg"></a></div>`;
+    editSubtaskInput.innerHTML = `<input type="text" id='inputEditTask${b}'><div class="editactionlinks" style="display:none;" id="editsubtaskbtn"><a href="#" onclick="cancelEditedSubtask(${i},${b},${id})" class="subdellink"><img src="assets/img/board/trash-icon.svg"></a><a href="#" onclick="saveEditedSubtask(${i},${b},${id})" class="subedilink"><img src="assets/img/board/check-icon.svg"></a></div>`;
     document.getElementById('editsubtaskbtn').style.display = "flex";
     let editSubtaskInputValue = document.getElementById(`inputEditTask${b}`);
     editSubtaskInputValue.value = `${cards[i]['subtasks'][b].nameSub}`;
@@ -334,18 +338,20 @@ function editLoadedSubtasks(i, b) {
  * @param {number} i - index of the Cards array 
  * @param {number} b - index of subtask in Cards JSON
  */
-function saveEditedSubtask(i, b) {
+async function saveEditedSubtask(i, b, id) {
     document.getElementById('editsubtaskbtn').style.display = "none";
     let editSubtaskInputValue = document.getElementById(`inputEditTask${b}`);
     cards[i]['subtasks'][b].nameSub = editSubtaskInputValue.value;
-    loadSubtasksEditform(i);
+    let updatedCard = { "subtasks": cards[i]['subtasks'] }
+    await saveCardToStorage(id, 'save', updatedCard)
+    loadSubtasksEditform(i, id);
 }
 
 /**
  * open subtask input form
  * @param {number} i - index of subtask in Cards JSON
  */
-function openSubtaskInput2(i) {
+function openSubtaskInput2(i, id) {
     let addSubtaskContainer = document.getElementById('addNewSubtask2');
     addSubtaskContainer.innerHTML = "";
     addSubtaskContainer.innerHTML += `
@@ -354,7 +360,7 @@ function openSubtaskInput2(i) {
         <svg height="40" width="3">
             <line x1="2" y1="8" x2="2" y2="32" style="stroke:#d1d1d1;stroke-width:2" />
         </svg>
-        <button class="add-category-btn" onclick="addSubtask2(${i})">${checkedSmallSVG}</button>
+        <button class="add-category-btn" onclick="addSubtask2(${i}, ${id})">${checkedSmallSVG}</button>
         `;
 }
 
@@ -363,8 +369,8 @@ function openSubtaskInput2(i) {
  * @param {number} i - index of the Cards array 
  * @param {number} b - index of subtask in Cards JSON
  */
-function cancelEditedSubtask(i, b) {
-    loadSubtasksEditform(i);
+function cancelEditedSubtask(i, b, id) {
+    loadSubtasksEditform(i, id);
 }
 
 /**
@@ -382,18 +388,20 @@ function cancelSubtaskInput2() {
  * add new subtask to card in edit card view
  * @param {number} i - index of the Cards array
  */
-function addSubtask2(i) {
+async function addSubtask2(i, id) {
     let subtaskMain = document.getElementById('subtasklist');
     let addSubtaskContainer = document.getElementById('addNewSubtask2');
     let addedSubtask = document.getElementById('added_subtask').value;
     addSubtaskContainer.innerHTML = `<p>Add new subtask</p>
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" onclick="openSubtaskInput2(${i})">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" onclick="openSubtaskInput2(${i}, ${id})">
         <path d="M12.0011 12.0002L12.0018 19.4149M4.58641 12.0008L12.0011 12.0002L4.58641 12.0008ZM19.4159 11.9995L12.0004 11.9995L19.4159 11.9995ZM12.0004 11.9995L12.0005 4.58545L12.0004 11.9995Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
     </svg>`;
-    subtaskMain.innerHTML += `   <div class="boxes" id="boxes${b}">• ${addedSubtask}<div class="actionlinks"><a href="#" onclick="editLoadedSubtasks(${i},${b})" class="subTaskEdit"><img src="assets/img/board/edit-icon.svg"></a><a href="#" onclick="deleteEditedSubtasks(${i},${b})" class="subTaskDel"><img src="assets/img/board/trash-icon.svg"></a></div></div>`
+    subtaskMain.innerHTML += `   <div class="boxes" id="boxes${b}">• ${addedSubtask}<div class="actionlinks"><a href="#" onclick="editLoadedSubtasks(${i},${b})" class="subTaskEdit"><img src="assets/img/board/edit-icon.svg"></a><a href="#" onclick="deleteEditedSubtasks(${i},${b},${id})" class="subTaskDel"><img src="assets/img/board/trash-icon.svg"></a></div></div>`
     cards[i]['subtasks'].push({ nameSub: addedSubtask, status: "unchecked" });
     addedSubtasks.push(addedSubtask);
     window.subtasks = addedSubtasks;
+    let updatedCard = { "subtasks": cards[i]['subtasks'] }
+    await saveCardToStorage(id, 'save', updatedCard)
 }
 
 /**
@@ -401,7 +409,9 @@ function addSubtask2(i) {
  * @param {number} i - index of the Cards array 
  * @param {number} b - index of subtask in Cards JSON
  */
-function deleteEditedSubtasks(i, b) {
+async function deleteEditedSubtasks(i, b, id) {
     cards[i]['subtasks'].splice(b, 1);
-    loadSubtasksEditform(i);
+    let updatedCard = { "subtasks": cards[i]['subtasks'] };
+    await saveCardToStorage(id, 'save', updatedCard)
+    loadSubtasksEditform(i, id);
 }

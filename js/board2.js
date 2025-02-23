@@ -37,9 +37,8 @@ function removePrio() {
  * delete card from board
  * @param {number} i - index of the Cards array 
  */
-async function deleteCard(i) {
-    cards.splice(i, 1);
-    await saveCardsToStorage();
+async function deleteCard(id) {
+    await saveCardToStorage(id, 'delete')
     closeOverlay();
 }
 
@@ -47,34 +46,34 @@ async function deleteCard(i) {
  * edit card function in card detailed view
  * @param {number} i - index of the Cards array
  */
-function editCard(i) {
+function editCard(i, id) {
     document.getElementById('CardDetail').style = "display:none;";
     document.getElementById('CardEditForm').style = "display:block;";
     document.getElementById('editCardTitle').value = `${cards[i]['title']}`;
     document.getElementById('editCardDescription').value = `${cards[i]['description']}`;
     document.getElementById('editCardDueDate').value = `${cards[i]['dueDate']}`;
-    document.getElementById('editCardPrio2').innerHTML = renderPrioState(i);
-    document.getElementById('editCardSubtasks').innerHTML = renderSubTaskMask(i);
-    selectbox.innerHTML = `<input type="text" placeholder="Select Contacts to assign" id="inputassigneduser" onclick="openDropdownContact2(${i})" onkeyup="openDropdownSearch(${i})">`;
-    editCardSave.innerHTML = `<div onclick='saveEditedCard(${[i]})'>Ok`;
+    document.getElementById('editCardPrio2').innerHTML = renderPrioState(i, id);
+    document.getElementById('editCardSubtasks').innerHTML = renderSubTaskMask(i, id);
+    selectbox.innerHTML = `<input type="text" placeholder="Select Contacts to assign" id="inputassigneduser" onclick="openDropdownContact2(${i}, ${id})" onkeyup="openDropdownSearch(${i}, ${id})">`;
+    editCardSave.innerHTML = `<div onclick='saveEditedCard(${[i]}, ${id})'>Ok`;
     loadActiveStatePrio(i);
-    loadSubtasksEditform(i);
+    loadSubtasksEditform(i, id);
     loadAssignedUserEditForm(i);
 }
 
 /**
  * Render the current prio state of card
  */
-function renderPrioState(i) {
+function renderPrioState(i, id) {
     return /* html */ `
     <div class="addTaskPrios" id="prioButtons2">
-                                    <button class="SubTaskPrios2 red" id="prioSelect0" onclick="addActiveState2(${i},0)">Urgent<img
+                                    <button class="SubTaskPrios2 red" id="prioSelect0" onclick="addActiveState2(${i},0, ${id})">Urgent<img
                                             src="./assets/img/addtask/prio-high.svg" alt="" class="default"><img
                                             src="./assets/img/addtask/prio-high-w.svg" alt="" class="active"></button>
-                                    <button class="SubTaskPrios2 yellow" id="prioSelect1" onclick="addActiveState2(${i},1)">Medium<img
+                                    <button class="SubTaskPrios2 yellow" id="prioSelect1" onclick="addActiveState2(${i},1, ${id})">Medium<img
                                         src="./assets/img/addtask/prio-medium.svg" alt="" class="default"><img
                                         src="./assets/img/addtask/prio-medium-w.svg" alt="" class="active"></button>
-                                    <button class="SubTaskPrios2 green" id="prioSelect2" onclick="addActiveState2(${i},2)">Low<img
+                                    <button class="SubTaskPrios2 green" id="prioSelect2" onclick="addActiveState2(${i},2, ${id})">Low<img
                                         src="./assets/img/addtask/prio-low.svg" alt="" class="default"><img
                                         src="./assets/img/addtask/prio-low-w.svg" alt="" class="active"></button>
                                 </div>`;
@@ -103,7 +102,7 @@ function loadActiveStatePrio(i) {
  * @param {number} i - index of the Cards array
  * @param {number} j - index of priority number
  */
-function addActiveState2(i, j) {
+function addActiveState2(i, j, id) {
     let btnsTip = document.getElementById('prioButtons2').getElementsByClassName('SubTaskPrios2');
     if (btnsTip[j].classList.contains('active-state')) {
         btnsTip[j].classList.remove('active-state');
@@ -115,7 +114,7 @@ function addActiveState2(i, j) {
     }
     let priorityNumber = j;
     window.priority = priorityNumber;
-    prioValueForSaving(i, j);
+    prioValueForSaving(i, j, id);
 }
 
 /**
@@ -123,7 +122,7 @@ function addActiveState2(i, j) {
  * @param {*} i - index of the Cards array
  * @param {*} h - priority number value
  */
-function prioValueForSaving(i, h) {
+async function prioValueForSaving(i, h, id) {
     if (h == 0) {
         prioValue = "Urgent";
     } else if (h == 1) {
@@ -131,21 +130,23 @@ function prioValueForSaving(i, h) {
     } else if (h == 2) {
         prioValue = "Low";
     }
-    cards[i]['prio'] = prioValue;
+    await saveCardToStorage(id, 'save', { "prio": prioValue })
+    await getCardsFromStorage();
 }
 
 /**
  * save edited card to board
  * @param {number} i - index of the Cards array 
  */
-async function saveEditedCard(i) {
-    cards[i]['title'] = document.getElementById('editCardTitle').value;
-    cards[i]['description'] = document.getElementById('editCardDescription').value;
-    cards[i]['dueDate'] = document.getElementById('editCardDueDate').value;
-
-    cards.push();
-    await saveCardsToStorage();
-    openCard(i);
+async function saveEditedCard(i, id) {
+    let updatedCard = {
+        "description": document.getElementById('editCardDescription').value,
+        "dueDate": document.getElementById('editCardDueDate').value,
+        "title": document.getElementById('editCardTitle').value
+    }
+    await saveCardToStorage(id, 'save', updatedCard);
+    await getCardsFromStorage();
+    openCard(i, id);
     document.getElementById('CardEditForm').style = "display:none;";
 }
 
@@ -171,9 +172,10 @@ function allowDrop(ev) {
  * @param {string} listType - name of list type
  */
 async function moveTo(listType) {
-    getCardsFromStorage();
-    cards[currentDraggedElement]['listType'] = listType.slice(9);
-    await saveCardsToStorage();
+    updatedCard = {
+        "listType": listType.slice(9)
+    }
+    await saveCardToStorage(currentDraggedElement, 'save', updatedCard);
     renderBoard();
 }
 
@@ -181,7 +183,7 @@ async function moveTo(listType) {
  * open dropdown menu for contacts in board card
  * @param {number} i - index of the Cards array
  */
-function openDropdownContact2(i) {
+function openDropdownContact2(i, id) {
     let addContactDropdown = document.getElementById('selectuser');
     let selectBoxActivated = document.getElementById('selectbox');
     addContactDropdown.innerHTML = "";
@@ -192,16 +194,16 @@ function openDropdownContact2(i) {
         addContactDropdown.style = "display: none;";
         selectBoxActivated.classList.remove('active');
     };
-    showAssignedUserOfCard(i);
+    showAssignedUserOfCard(i, id);
     openTransparentOverlay();
 }
 
 /**
  * Render assigned user in dropdown and add class
  */
-function showAssignedUserOfCard(i) {
+function showAssignedUserOfCard(i, id) {
     for (p = 0; p < Contacts.length; p++) {
-        loadAssignedUserToForm(i, p);
+        loadAssignedUserToForm(i, p, id);
         if (cards[i]['assignedUserFullName'].includes(Contacts[p]['name'])) {
             let addClassAssignedUser = document.getElementById(`addusercard${p}`);
             addClassAssignedUser.classList.add('added');
@@ -216,36 +218,51 @@ function showAssignedUserOfCard(i) {
  * @param {number} i - index of the Cards array
  * @param {*} p 
  */
-function addUser(i, p) {
+function addUser(i, p, id) {
     let indexOfUser = cards[i]['assignedUserFullName'].indexOf(Contacts[p]['name']);
     let addClassAssignedUser = document.getElementById(`addusercard${p}`);
     let changeCheckboxImg = document.getElementById(`userchecked${p}`);
     if (indexOfUser == -1) {
-        addNewUser(i, p, addClassAssignedUser, changeCheckboxImg);
+        addNewUser(i, p, addClassAssignedUser, changeCheckboxImg, id);
     }
     else if (cards[i]['assignedUserFullName'].includes(Contacts[p]['name'])) {
-        removeUser(i, p, indexOfUser, addClassAssignedUser, changeCheckboxImg);
+        removeUser(i, p, indexOfUser, addClassAssignedUser, changeCheckboxImg, id);
     };
 }
 
 /**
  * Assigned user dropdown: Add selected user to card.
  */
-function addNewUser(i, p, addClassAssignedUser, changeCheckboxImg) {
+async function addNewUser(i, p, addClassAssignedUser, changeCheckboxImg, id) {
+    let newAssignedUser = [...cards[i].assignedUser, Contacts[p]['firstLetters']];
+    let newAssignedUserFullName = [...cards[i].assignedUserFullName, Contacts[p]['name']];
+
+    let updatedCard = {
+        "assignedUser": newAssignedUser,
+        "assignedUserFullName": newAssignedUserFullName
+    }
+    await saveCardToStorage(id, 'save', updatedCard)
     cards[i]['assignedUser'].push(Contacts[p]['firstLetters']);
     cards[i]['assignedUserFullName'].push(Contacts[p]['name']);
     addClassAssignedUser.classList.add('added');
     changeCheckboxImg.src = "assets/img/board/checkbox-checked.svg";
+    loadAssignedUserEditForm(i);
 }
 
 /**
  * Assigned user dropdown: Remove selected user from card.
  */
-function removeUser(i, p, indexOfUser, addClassAssignedUser, changeCheckboxImg) {
+async function removeUser(i, p, indexOfUser, addClassAssignedUser, changeCheckboxImg, id) {
     cards[i]['assignedUser'].splice(indexOfUser, 1);
     cards[i]['assignedUserFullName'].splice(indexOfUser, 1);
     addClassAssignedUser.classList.remove('added');
     changeCheckboxImg.src = "assets/img/board/checkbox-unchecked.svg";
+    let updatedCard = {
+        "assignedUser": cards[i]['assignedUser'],
+        "assignedUserFullName": cards[i]['assignedUserFullName']
+    }
+    await saveCardToStorage(id, 'save', updatedCard)
+    loadAssignedUserEditForm(i);
 }
 
 /**
@@ -285,13 +302,13 @@ function findContacts(i, findContactFormatted) {
  * @param {number} i - index of the Cards array
  * @param {*} p 
  */
-function loadAssignedUserToForm(i, p) {
+function loadAssignedUserToForm(i, p, id) {
     let findContact = document.getElementById('inputassigneduser').value;
     let findContactFormatted = findContact.toLowerCase();
     let addContactDropdown = document.getElementById('selectuser');
     if (Contacts[p]['name'].toLowerCase().includes(findContactFormatted)) {
         addContactDropdown.innerHTML += /* html */ `
-        <div class="addusertocard" onclick="addUser(${i}, ${p})" id="addusercard${p}">
+        <div class="addusertocard" onclick="addUser(${i}, ${p}, ${id})" id="addusercard${p}">
         <div class="label-card" style="background-color:${nameTagsColors[p]}">${Contacts[p]['firstLetters']}</div>
         <div class="card-name" id="contactsname${i}${p}">${Contacts[p]['name']}</div>
         <img src="assets/img/board/checkbox-unchecked.svg" class="usercheckb default" id="userchecked${p}">
