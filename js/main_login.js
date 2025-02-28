@@ -81,7 +81,7 @@ async function checkLogIn() {
     let isLoggedIn = false;
     let rememberMeImg = document.getElementById('rememberMe');
 
-    const url = `${TEST_URL}login/`;
+    const url = `${URL}login/`;
     const email = document.getElementById('emailInput').value;
     const password = document.getElementById('passwordInput1').value;
     let value = {
