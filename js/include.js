@@ -4,11 +4,13 @@ let currentuser = "Jon Doe";
  * Initialize logged in user
  */
 async function includeTemplates(a) {
-    await getContactsFromStorage();
     await includeHTML();
     let currentUserInitials = await document.getElementById('myaccount');
+
     if (currentUser !== 1000) {
         if (currentUser || '0') {
+            await getContactsFromStorage();
+            await sortContactsAlphabetically(Contacts)
             currentUserInitials.innerHTML = await `${Contacts[currentUser].firstLetters}`;
         }
     } else {

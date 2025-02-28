@@ -76,6 +76,7 @@ async function welcomeMsgUser() {
     let messageUser = await document.getElementById('welcomemsguser');
     if (messageUser) {
         await getContactsFromStorage();
+        sortContactsAlphabetically(Contacts)
         if (currentUser !== 1000) {
             let user = await Contacts[currentUser].name;
             if (currentUser || '0') {
@@ -119,7 +120,6 @@ window.addEventListener('resize', addClassMobile);
  * Count the tasks in categories. 
  */
 function summaryTasks() {
-    // Tasks in board
     let allBox = document.getElementById('sum-1');
     if (allBox) {
         allBox.innerHTML = `${cards.length}`;

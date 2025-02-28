@@ -22,14 +22,14 @@ function startAnimation() {
 
         setTimeout(() => { logo.src = "img/joinlogo.png"; }, 80)
         logo.classList.add('imgLogo');
-        background.style.backgroundColor = "rgba(246, 247, 248, 0%)"; // Fades out the startBackground div gradually
+        background.style.backgroundColor = "rgba(246, 247, 248, 0%)";
         setTimeout(() => {
             if (background && background.parentNode) {
-                background.parentNode.removeChild(background); // Remove the image from the DOM after the animation
+                background.parentNode.removeChild(background);
             }
-        }, 500); // Wait for 0.5 seconds (same duration as the animation) before removing the image
+        }, 500);
         handleMaxWidthChange();
-    }, 500); // Wait for 0.5 seconds before starting the animation
+    }, 500);
 }
 
 
@@ -44,10 +44,10 @@ function togglePasswordVisibility(i) {
 
     if (!passwordImage.src.includes('/assets/img/logInSignUp/lock.svg')) {
         if (passwordInput.type === 'password') {
-            passwordInput.type = 'text'; // Show password
+            passwordInput.type = 'text';
             passwordImage.src = './assets/img/logInSignUp/eye.svg';
         } else {
-            passwordInput.type = 'password'; // Hide password
+            passwordInput.type = 'password';
             passwordImage.src = './assets/img/logInSignUp/hiddeneye.svg';
         }
     }
@@ -171,7 +171,7 @@ function renderSignUp() {
 /**
  * Function to handle SignUp form submission
  */
-async function signUpForm() {
+async function signUpFormOld() {
     let nameInput = document.getElementById('nameInput');
     let emailInput = document.getElementById('emailInput');
     let password1 = document.getElementById('passwordInput1');
@@ -192,6 +192,44 @@ async function signUpForm() {
     }
 }
 
+async function signUpForm() {
+    let nameInput = document.getElementById('nameInput');
+    let emailInput = document.getElementById('emailInput');
+    let password1 = document.getElementById('passwordInput1');
+    let password2 = document.getElementById('passwordInput2');
+
+    if (checkSamePasswort(password1, password2) && await checkEmail(emailInput.value) && checkTwoWordsforSignUp(nameInput)) {
+        let nameArray = nameInput.value.split(' ');
+        let firstName = nameArray[0];
+        let lastName = nameArray[1];
+        let firstTwoLetters = firstName.charAt(0) + lastName.charAt(0);
+        let value = {
+            "username": emailInput.value,
+            "email": emailInput.value,
+            "firstName": firstName,
+            "lastName": lastName,
+            "password1": password1.value
+        }
+
+        const response = await fetch("http://127.0.0.1:8000/api/register/", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(value)
+        });
+
+        if (response.ok) {
+            await saveNewUserData(firstName, lastName, emailInput.value, firstTwoLetters, nameInput.value);
+            sortContactsAlphabetically(Contacts);
+            await saveContactsToStorage();
+            resetInputField(nameInput, emailInput, password1, password2);
+            show();
+            setTimeout(() => { renderLogIn() }, 2000)
+        }
+    }
+}
+
 /**
  * Saves new user data to the Contacts list.
  * @param {string} firstName - The first name of the user.
@@ -202,17 +240,17 @@ async function signUpForm() {
  * @param {HTMLInputElement} password1 - The input element for the password.
  * @returns {void}
  */
-function saveNewUserData(firstName, lastName, emailInput, firstTwoLetters, nameInput, password1) {
+function saveNewUserData(firstName, lastName, emailInput, firstTwoLetters, nameInput) {
     let user = {
         "firstName": firstName,
         "lastName": lastName,
         "phone": 'Please add a phonenumber',
-        "email": emailInput.value,
+        "email": emailInput,
         "color": "black",
         "firstLetters": firstTwoLetters,
-        "name": nameInput.value,
-        "password": password1.value,
+        "name": nameInput,
     };
+    Contacts = [];
     Contacts.push(user);
 }
 
@@ -401,7 +439,6 @@ function handleMaxWidthChange() {
         moveElementToNewPosition(document.getElementById('footer'));
     } else {
         if (moveBack && elementToMove)
-            // moveElementToNewPosition(document.getElementById('front-main-content'));
             moveBack.appendChild(elementToMove);
     }
 }

@@ -14,14 +14,14 @@ loadcurrentUser();
  * If successful, sets the current user, stores it in local storage, and redirects to the summary page.
  * If unsuccessful, displays an error message and highlights the password input field.
  */
-function checkLogIn() {
+function checkLogInOld() {
     getContactsFromStorage();
     let emailInput = document.getElementById('emailInput');
     let passwordInput = document.getElementById('passwordInput1');
-    let isLoggedIn = false; // Variable to track if the login check was successful
+    let isLoggedIn = false;
     let rememberMeImg = document.getElementById('rememberMe');
 
-    if(rememberMeImg.classList.contains('checkBox')) {
+    if (rememberMeImg.classList.contains('checkBox')) {
         localStorage.setItem('rememberMe', 1);
     }
 
@@ -35,15 +35,15 @@ function checkLogIn() {
             currentUser = i;
             localStorage.setItem('currentUser', currentUser);
             window.location.href = 'summary.html';
-            break; // Exit the loop since no further checking is needed
+            break;
         }
     }
 
-    if (!isLoggedIn) { 
+    if (!isLoggedIn) {
         passwordAlert.textContent = "Wrong password Ups! Try again";
         passwordInput.parentElement.classList.add('redInput');
 
-        setTimeout(() => { // Clear the error message and remove the red highlight after 3 seconds
+        setTimeout(() => {
             passwordAlert.textContent = "";
             passwordInput.parentElement.classList.remove('redInput');
         }, 3000);
@@ -60,7 +60,7 @@ function loadcurrentUser() {
     if (storedCurrentUser !== null) {
         currentUser = parseInt(storedCurrentUser);
     }
-    if(stordeRememberMe !== null) {
+    if (stordeRememberMe !== null) {
         rememberMe = parseInt(stordeRememberMe);
     }
 }
@@ -72,4 +72,55 @@ function loadcurrentUser() {
 function guestLogIn() {
     localStorage.setItem('currentUser', 1000);
     window.location.href = 'summary.html';
+}
+
+
+async function checkLogIn() {
+    let emailInput = document.getElementById('emailInput');
+    let passwordInput = document.getElementById('passwordInput1');
+    let isLoggedIn = false;
+    let rememberMeImg = document.getElementById('rememberMe');
+
+    const url = `${TEST_URL}login/`;
+    const email = document.getElementById('emailInput').value;
+    const password = document.getElementById('passwordInput1').value;
+    let value = {
+        "email": email,
+        "password": password
+    }
+
+    try {
+        const response = await fetch(url, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(value)
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+            await getContactsFromStorage();
+            sortContactsAlphabetically(Contacts);
+            for (let i = 0; i < Contacts.length; i++) {
+                if (Contacts[i].email === data.email) {
+                    localStorage.setItem('currentUser', i);
+                    break;
+                }
+            }
+            window.location.href = "summary.html";
+        }
+        if (!data.success) {
+            passwordAlert.textContent = "Wrong password Ups! Try again";
+            passwordInput.parentElement.classList.add('redInput');
+
+            setTimeout(() => {
+                passwordAlert.textContent = "";
+                passwordInput.parentElement.classList.remove('redInput');
+            }, 3000);
+        }
+    } catch (error) {
+        console.error("Fehler beim Login:", error);
+    }
 }

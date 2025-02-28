@@ -1,10 +1,10 @@
-const DATABASE_URL = 'https://myjoin-2a48d-default-rtdb.europe-west1.firebasedatabase.app/';
-const TEST_URL = 'http://127.0.0.1:8000/api/'
+const URL = 'http://127.0.0.1:8000/api/'
+
 // Speichern von Kontakten
 async function saveContactsToStorage() {
     const key = 'contacts/';
     const value = Contacts[0];
-    const url = `${TEST_URL}${key}`;
+    const url = `${URL}${key}`;
     try {
         await fetch(url, {
             method: 'POST',
@@ -22,7 +22,7 @@ async function saveContactsToStorage() {
 // Speichern von edit Kontakten oder löschen von Kontakten
 async function saveContactToStorage(pk, method, updatedContact) {
     const key = 'contacts/';
-    const url = `${TEST_URL}${key}${pk}`;
+    const url = `${URL}${key}${pk}`;
     try {
         if (method === 'save') {
             await fetch(url, {
@@ -47,7 +47,7 @@ async function saveContactToStorage(pk, method, updatedContact) {
 // Abrufen von Kontakten
 async function getContactsFromStorage() {
     const key = 'contacts/';
-    const url = `${TEST_URL}${key}`;
+    const url = `${URL}${key}`;
     try {
         const response = await fetch(url);
         if (!response.ok) {
@@ -68,7 +68,7 @@ async function getContactsFromStorage() {
 async function saveCardsToStorage() {
     const key = 'cards/';
     const value = cards[0]
-    const url = `${TEST_URL}${key}`;
+    const url = `${URL}${key}`;
     try {
         await fetch(url, {
             method: 'POST',
@@ -85,7 +85,7 @@ async function saveCardsToStorage() {
 // Speichern von Cards
 async function saveCardToStorage(id, method, updatedCard) {
     const key = 'cards/';
-    const url = `${TEST_URL}${key}${id}`;
+    const url = `${URL}${key}${id}`;
     try {
         if (method === 'save') {
             await fetch(url, {
@@ -109,7 +109,7 @@ async function saveCardToStorage(id, method, updatedCard) {
 // Abrufen von Cards
 async function getCardsFromStorage() {
     const key = 'cards/';
-    const url = `${TEST_URL}${key}`;
+    const url = `${URL}${key}`;
 
     try {
         const response = await fetch(url);
@@ -133,8 +133,7 @@ async function getCardsFromStorage() {
 async function saveCategoriesToStorage() {
     const key = 'categories/';
     const value = categories;
-    // const url = `${DATABASE_URL}${key}.json`;
-    const url = `${TEST_URL}${key}`;
+    const url = `${URL}${key}`;
 
     try {
         await fetch(url, {
@@ -158,8 +157,7 @@ async function saveCategoriesToStorage() {
 // Abrufen von Categories
 async function getCategoriesFromStorage() {
     const key = 'categories/';
-    // const url = `${DATABASE_URL}${key}.json`;
-    const url = `${TEST_URL}${key}`;
+    const url = `${URL}${key}`;
     try {
         const response = await fetch(url);
 
@@ -170,9 +168,7 @@ async function getCategoriesFromStorage() {
         const data = await response.json();
         if (data) {
             categories = Object.values(data).flat();
-            // console.log("Categories loaded:", categories);
         } else {
-            // console.log("No categories found!");
             categories = [];
         }
     } catch (error) {

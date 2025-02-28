@@ -8,7 +8,7 @@ async function deleteContact(x, id) {
     if (x === currentUser) {
         alert('Du kannst dich nicht selber löschen')
     } else {
-        // await deleteContactInCards(x);
+        await deleteContactInCards(x);
         Contacts.splice(x, 1);
         await saveContactToStorage(id, 'delete')
         if (currentUser > x && currentUser !== 1000) {
@@ -16,7 +16,6 @@ async function deleteContact(x, id) {
             localStorage.setItem('currentUser', currentUser);
         };
         document.getElementById('floating_contact').innerHTML = '';
-        // await saveContactsToStorage();
         renderContactsList();
     }
 }
@@ -29,14 +28,16 @@ async function deleteContact(x, id) {
  */
 async function deleteContactInCards(x) {
     await getCardsFromStorage();
-    const searchedName = `${Contacts[x].firstName} ${Contacts[x].lastName}`;
+    const searchedName = `${Contacts[x].name}`;
     cards.forEach(card => {
         let index = card.assignedUserFullName.indexOf(searchedName);
         if (index !== -1) {
             card.assignedUserFullName.splice(index, 1);
             card.assignedUser.splice(index, 1);
+            let updatedCard = card
+            saveCardToStorage(card.id, 'save', updatedCard)
         }
-    });
+    })
     await saveCardsToStorage();
 }
 
@@ -152,7 +153,6 @@ async function createNewContact() {
                 "color": "black",
                 "firstLetters": firstTwoLetters,
                 "name": nameInput,
-                "password": '1234',
             };
             Contacts = [];
             Contacts.push(newContact);
@@ -324,9 +324,7 @@ function renderEditContact(x, id) {
  * @returns {Promise<void>}
  */
 async function deleteContactFromEdit(x, id) {
-    // deleteContact(x);
     closeNewContact();
-    // await saveContactsToStorage();
     await saveContactToStorage(id, 'delete');
     renderContactsList();
 }
@@ -343,13 +341,6 @@ async function editContact(x, id) {
     let newLastName = nameArray[1];
     let newEmail = document.getElementById('edit_email').value;
     let newPhone = document.getElementById('edit_phone').value;
-    // let element = Contacts[x];
-
-    // element.firstName = newFirstName;
-    // element.lastName = newLastName;
-    // element.email = newEmail;
-    // element.phone = newPhone;
-    // element.name = nameInput;
 
     const updatedContact = {
         "firstName": newFirstName,

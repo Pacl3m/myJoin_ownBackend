@@ -432,7 +432,6 @@ function closeTranspOverlay() {
         closeDropdownContact();
     }
     if (categoryMainContainer.classList.contains('openCategory')) {
-        // console.log('PASST');
         closeCategoryInput();
     }
 }

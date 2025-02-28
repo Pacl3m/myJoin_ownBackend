@@ -289,7 +289,6 @@ function openAddTask(i) {
         document.getElementById('CardContainer').style = "display:block;";
         document.getElementById('overlay').classList.remove('d-none');
         main();
-        // renderAddTask();
     }
 }
 
@@ -298,9 +297,6 @@ function openAddTask(i) {
  * render addTask overlay by loading template
  */
 function renderAddTask() {
-    //     document.getElementById('CardContainer').innerHTML = `
-    //     <div class="includeTaskForm" w3-include-html="templates/task_form2.html">
-    //     `;
     includeTemplates();
 }
 
@@ -316,7 +312,6 @@ function closeOverlay() {
         overlayClose.classList.remove('overlay-close');
     }, 0);
     document.getElementById('CardContainer').style = "display:none;";
-    // document.getElementById('CardContainer').innerHTML = "";
     document.getElementById('CardDetail').style = "display:none;";
     document.getElementById('CardEditForm').style = "display:none;";
     renderBoard();
