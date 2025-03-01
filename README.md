@@ -1,18 +1,10 @@
-Projekt starten – Schnellstartanleitung  
+Projekt starten – Schnellstartanleitung
 
+Backend starten (Django): python -m venv venv
+source venv/bin/activate (Windows: venv\Scripts\activate)
+pip install -r requirements.txt (Voraussetzung ist, dass Python und pip installiert sind) python manage.py makemigrations python manage.py migrate
+python manage.py runserver
 
-1. Backend starten (Django):  
-cd backend  
-python -m venv venv  
-source venv/bin/activate (Windows: venv\Scripts\activate)  
-pip install -r requirements.txt  
-python manage.py migrate  
-python manage.py runserver 127.0.0.1:8000  
+Frontend starten: Öffne das Frontend-Projekt in VS Code. Klicke mit Rechtsklick auf die index.html. Wähle "Open with Live Server".
 
-2. Frontend starten (React/Vue/Angular):  
-cd frontend  
-npm install  
-npm start (Angular: ng serve)  
-
-Backend läuft unter: http://127.0.0.1:8000/  
-Frontend läuft unter: http://localhost:3000/ (React/Vue) oder http://localhost:4200/ (Angular)  
+Backend läuft unter: http://127.0.0.1:8000/
