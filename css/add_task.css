@@ -437,6 +437,7 @@ div#addCategory {
 
 .selected-category-color {
     box-sizing: border-box;
+    cursor: pointer;
 }
 
 .new-category-color {

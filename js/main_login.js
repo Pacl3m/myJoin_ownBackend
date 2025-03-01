@@ -101,11 +101,14 @@ async function checkLogIn() {
         const data = await response.json();
 
         if (data.success) {
+            console.log(data.token);
+            
             await getContactsFromStorage();
             sortContactsAlphabetically(Contacts);
             for (let i = 0; i < Contacts.length; i++) {
                 if (Contacts[i].email === data.email) {
                     localStorage.setItem('currentUser', i);
+                    localStorage.setItem('token', data.token);
                     break;
                 }
             }
@@ -123,4 +126,10 @@ async function checkLogIn() {
     } catch (error) {
         console.error("Fehler beim Login:", error);
     }
+}
+
+function logOut(){
+    localStorage.removeItem('token');
+    localStorage.removeItem('currentUser');
+    window.location.href = '/';
 }

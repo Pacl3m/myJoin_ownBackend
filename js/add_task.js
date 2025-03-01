@@ -27,6 +27,7 @@ let downArrow = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" 
 </svg>`;
 
 let isFormValidated = false;
+let newCategoryColor = '#FFC701';
 
 /**
  * This is the main function that gets the two arrays from remote storage and generates a needed array.
@@ -223,7 +224,8 @@ function openCategoryInput() {
 function closeCategoryInput() {
     document.getElementById('category').innerHTML = "";
     document.getElementById('category').classList.remove('openCategory');
-    document.getElementById('category').innerHTML = `<h5>Category</h5><div class="selectContainer addcatph" id="addCategory" onclick="openCategoryDropDown()">Select task category</div>`;
+    document.getElementById('category').innerHTML = `<h5>Category</h5><div class="selectContainer addcatph" id="addCategory" onclick="openCategoryDropDown()">Select task category</div>
+    <p id="FieldCategory" class="requiredInputFields" style="display: none;">Please select category!</p>`;
 }
 
 /**
@@ -275,7 +277,7 @@ function renderSelectableCategoryColors() {
  */
 function selectedCategoryColor(x) {
     renderSelectableCategoryColors();
-    window.newCategoryColor = x;
+    newCategoryColor = x;
     let selectedColorContainer = document.getElementById(`circle_${x}`);
     selectedColorContainer.classList.add('stroke-width-2');
 }
