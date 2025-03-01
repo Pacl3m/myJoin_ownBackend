@@ -23,7 +23,7 @@
     <link rel="icon" type="image/x-icon" href="img/joinlogo.png">
 </head>
 
-<body onload="includeTemplates();getContactsFromStorage();init();renderBoard()">
+<body onload="checkAuthToken();includeTemplates();getContactsFromStorage();init();renderBoard()">
     <div w3-include-html="add_task.html" class="d-none" id="addTaskOverlay"></div>
     <div class="AllMainBoard">
         <div class="middle">

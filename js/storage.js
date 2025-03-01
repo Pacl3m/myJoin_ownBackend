@@ -180,29 +180,31 @@ async function getCategoriesFromStorage() {
 async function checkAuthToken() {
     let url = `${URL}check_token/`;
     const token = localStorage.getItem('token');
-    if (!token) {
-        window.location.href = '/';
-        return;
-    }
-
-    try {
-        const response = await fetch(url, {
-            method: 'GET',
-            headers: {
-                'Authorization': `Token ${token}`
-            }
-        });
-
-        if (!response.ok) {
-            throw new Error('Token ungültig');
+    if (token != '1000') {
+        if (!token) {
+            window.location.href = '/';
+            return;
         }
 
-        const data = await response.json();
-        if (!data.isAuthenticated) {
+        try {
+            const response = await fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Token ${token}`
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error('Token ungültig');
+            }
+
+            const data = await response.json();
+            if (!data.isAuthenticated) {
+                window.location.href = '/';
+            }
+        } catch (error) {
+            console.error('Fehler bei der Token-Überprüfung:', error);
             window.location.href = '/';
         }
-    } catch (error) {
-        console.error('Fehler bei der Token-Überprüfung:', error);
-        window.location.href = '/';
     }
 }

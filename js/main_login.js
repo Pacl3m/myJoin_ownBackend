@@ -71,6 +71,7 @@ function loadcurrentUser() {
  */
 function guestLogIn() {
     localStorage.setItem('currentUser', 1000);
+    localStorage.setItem('token', 1000);
     window.location.href = 'summary.html';
 }
 

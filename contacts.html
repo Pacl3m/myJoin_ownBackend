@@ -19,7 +19,7 @@
     <link rel="icon" type="image/x-icon" href="img/joinlogo.png">
 </head>
 
-<body onload="renderContactsList(), includeTemplates()">
+<body onload="checkAuthToken();renderContactsList(), includeTemplates()">
 
     <div class="sidebar" w3-include-html="templates/sidebar.html"> </div>
     <div class="middle">
